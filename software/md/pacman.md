@@ -11,15 +11,16 @@ On retrouve :
 - Wireshark (permet de surveiller le réseau).
 - Inkscape (éditeur d'image SVG).
 - Obsidian (bloc-notes LaTeX).
-- Audacity (Logiciel d'enregistrement et de montage audio).
-- OBS Studio (Logiciel d'enregistrement vidéo).
-- VLC (Lecteur multimédia).
+- Audacity (logiciel d'enregistrement et de montage audio).
+- OBS Studio (logiciel d'enregistrement vidéo).
+- VLC (lecteur multimédia).
 - Scite (IDE Java et plus).
 - hunspell-fr (dictionnaire français pour correcteur orthographique).
+- fastfetch (permet d'obtenir des informations sur le système depuis le terminal).
 
 Il suffit tout simplement d'exécuter la commande suivante :
 ```
-sudo pacman -S htop thunderbird libreoffice-fresh-fr filezilla mysql-workbench wireshark-qt inkscape obsidian audacity obs-studio vlc vlc-plugins-all scite hunspell-fr
+sudo pacman -S htop thunderbird libreoffice-fresh-fr filezilla mysql-workbench wireshark-qt inkscape obsidian audacity obs-studio vlc vlc-plugins-all scite hunspell-fr fastfetch
 ```
 
 ## Wireshark :
