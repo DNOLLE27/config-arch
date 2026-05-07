@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.116.0
+Name=Visual Studio Code
+Comment=Microsoft IDE
+Path=/home/<username>/soft-local/VSCode-linux-x64
+Exec=/home/<username>/soft-local/path/vscode
+Icon=/home/<username>/Images/Icons/vscode-icon.png
+Terminal=false
+Categories=Development

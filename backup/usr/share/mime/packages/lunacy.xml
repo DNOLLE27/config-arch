@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-lunacy">
+    <comment>Lunacy file</comment>
+    <glob pattern="*.free" weight="100"/>
+    <glob pattern="*.sketch" weight="100"/>
+  </mime-type>
+</mime-info>

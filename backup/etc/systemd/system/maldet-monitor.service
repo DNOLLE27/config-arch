@@ -1,0 +1,17 @@
+[Unit]
+Description=Maldet Real-Time Monitor (inotify)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/maldetect/maldet --monitor /home,/var,/tmp
+Restart=always
+RestartSec=5
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

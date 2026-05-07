@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=0.12.31
+Name=Téléchargeur de vidéos
+Comment=Téléchargez des vidéos à partir de sites web
+Exec=/home/<username>/Documents/scripts/launch_videodownloader.sh
+Path=/usr/bin
+Icon=/home/<username>/Images/Icons/videodownloader-icon.png
+Terminal=false
+Type=Application
+Categories=Development;

@@ -1,0 +1,15 @@
+[Unit]
+Description=Discord on start
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus
+ExecStartPre=/bin/sleep 10
+ExecStart=/usr/local/bin/discord
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=default.target

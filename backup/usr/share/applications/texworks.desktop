@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=0.6.11
+Name=TexWorks
+Comment=MikTex - TexWorks (éditeur de texte LaTeX)
+Exec=/usr/local/bin/miktex-texworks
+Path=/usr/local/bin/
+Icon=/home/<username>/Images/Icons/texworks-icon.png
+Terminal=false
+Type=Application
+Categories=Office;

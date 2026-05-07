@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=4.5
+Name=MARS
+Comment=IDE Assembleur
+Exec=/usr/bin/java -jar /home/<username>/soft-local/jar/mars.jar
+Path=/home/<username>/soft-local/jar
+Icon=/home/<username>/Images/Icons/mars.png
+Terminal=false
+Type=Application
+Categories=Development;

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=12.6.8
+Name=Postman
+Comment=Client HTTP
+Exec=/home/<username>/soft-local/Postman/app/postman
+Path=/home/<username>/soft-local/Postman/
+Icon=/home/<username>/soft-local/Postman/app/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Development;

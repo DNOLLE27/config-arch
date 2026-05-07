@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=150.0
+Name=Firefox
+Comment=Navigateur rapide et privé
+Exec=/home/<username>/Documents/scripts/launch_firefox.sh
+Path=/usr/bin
+Icon=/home/<username>/Images/Icons/firefox-icon.png
+Terminal=false
+Type=Application
+Categories=Development;

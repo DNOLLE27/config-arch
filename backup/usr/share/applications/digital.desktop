@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=0.29
+Name=Digital
+Comment=Logiciel de conception de schémas logique
+Exec=/usr/bin/java -jar /home/<username>/soft-local/jar/Digital.jar
+Path=/home/<username>/soft-local/jar
+Icon=/home/<username>/Images/Icons/xnor.png
+Terminal=false
+Type=Application
+Categories=Development;

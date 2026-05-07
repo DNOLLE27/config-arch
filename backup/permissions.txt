@@ -1,0 +1,124 @@
+/boot/loader/entries :
+- arch-fallback.conf (-rw------- root root) 
+- arch.conf (-rw------- root root)
+
+/boot/loader :
+- loader.conf (-rw------- root root)
+
+/etc/audit :
+- auditd.conf (-rw-r--r-- root root)
+
+/etc/clamav :
+- clamd.conf (-rw-r--r-- root root)
+- exclude-list.txt (-rw-r--r-- root root)
+- freshclam.conf (-rw-r--r-- root root)
+- virus-event.bash (-rwxr-xr-x root root)
+
+/etc/fail2ban/filter.d :
+- ufw.aggressive.conf (-rw-r--r-- root root)
+
+/etc/fail2ban :
+- jail.local (-rw-r--r-- root root)
+
+/etc/firejail :
+- firejail.config (-rw-r--r-- root root)
+
+/etc/httpd/conf/extra :
+- phpmyadmin.conf (-rw-r--r-- root root)
+
+/etc/httpd/conf :
+- httpd.conf (-rw-r--r-- root root)
+
+/etc/mkinitcpio.d : 
+- linux-hardened.preset (-rw-r--r-- root root)
+
+/etc/pam.d : 
+- passwd (-rw-r--r-- root root)
+- su (-rw-r--r-- root root)
+- su-l (-rw-r--r-- root root)
+
+/etc/php : 
+- php.ini (-rw-r--r-- root root)
+
+/etc/ssh : 
+- sshd_config (-rw-r--r-- root root)
+
+/etc/sudoers.d : 
+- clamav (-rw-r--r-- root root)
+
+/etc/sysctl.d : 
+- 99-security.conf (-rw-r--r-- root root)
+
+/etc/systemd/system : 
+- clamav-clamonacc-delayed-restart.service (-rw-r--r-- root root)
+- clamav-clamonacc-delayed-restart.timer (-rw-r--r-- root root)
+- clamav-restart-on-error.service (-rw-r--r-- root root)
+- maldet-monitor.service (-rw-r--r-- root root)
+
+/etc/systemd :
+- journald.conf (-rw-r--r-- root root)
+
+/etc/tmpfiles.d : 
+- audit.conf (-rw-r--r-- root root)
+
+/etc/usbguard : 
+- usbguard-daemon.conf (-rw------- root root)
+
+/etc/webapps/phpmyadmin :
+- config.inc.php (-rw-r--r-- root root)
+
+/etc :
+- fstab (-rw-r--r-- root root)
+- mkinitcpio.conf (-rw-r--r-- root root)
+- pacman.conf (-rw-r--r-- root root)
+- sudoers (-r--r----- root root)
+
+/home/<username>/.config/autostart :
+- apparmor-notify.desktop (-rw-r--r-- root root)
+
+/home/<username>/.config/rclone : 
+- get_pass.sh (-rwx------ <username> <username>)
+
+/home/<username>/.config/systemd/user :
+- rclone-onedrive.service (-rw-r--r-- <username> <username>)
+- discord-on-start.service (-rw-r--r-- <username> <username>)
+
+/home/<username>/Documents/scripts :
+- av-scan.sh (-rwxr-xr-x <username> <username>)
+- clamav-restartonerr.sh (-rwxr-xr-x <username> <username>)
+- install_composer.sh (-rwxr-xr-x <username> <username>)
+- launch_codeblocks.sh (-rwxr-xr-x <username> <username>)
+- launch_gimp.sh (-rwxr-xr-x <username> <username>)
+- launch_videodownloader.sh (-rwxr-xr-x <username> <username>)
+- launch_wireshark.sh (-rwxr-xr-x <username> <username>)
+- plantuml (-rwxr-xr-x <username> <username>)
+- launch_firefox.sh (-rwxr-xr-x <username> <username>)
+
+/home/<username> : 
+- .bashrc (-rw-r--r-- <username> <username>)
+
+/usr/lib/systemd/system : 
+- clamav-clamonacc.service (-rw-r--r-- root root)
+
+/usr/local/maldetect : 
+- conf.maldet (-rw-r--r-- <username> <username>)
+- ignore_paths (-rw-r--r-- <username> <username>)
+
+/usr/share/mime/packages :
+- lunacy.xml (-rw-r--r-- root root)
+
+/usr/share/plymouth/themes/arch-mac-style :
+- Pour tous les fichiers (-rw-r--r-- <username> <username>)
+- Pour tous les répertoires (drwxr-xr-x <username> <username>)
+
+/usr/share/applications :
+- codeblocks.desktop (-rwxr--r-- <username> <username>)
+- digital.desktop (-rwxr--r-- <username> <username>)
+- gitkraken.desktop (-rwxr--r-- <username> <username>)
+- idle.desktop (-rwxr--r-- <username> <username>)
+- mars.desktop (-rwxr--r-- <username> <username>)
+- openshot.desktop (-rwxr--r-- <username> <username>)
+- org.wireshark.Wireshark.desktop (-rw-r--r-- <username> <username>)
+- postman.desktop (-rwxr--r-- <username> <username>)
+- texworks.desktop (-rwxr--r-- <username> <username>)
+- vscode.desktop (-rwxr--r-- <username> <username>)

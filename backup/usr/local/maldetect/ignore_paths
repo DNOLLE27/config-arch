@@ -1,0 +1,14 @@
+/usr/local/maldetect
+/usr/local/sbin/maldet
+/var/lib/clamav
+/etc/clamav
+/run/clamav
+/var/log/clamav
+/usr/lib/libreoffice
+/home/.config/Code
+/root/quarantine
+/home/<username>/.vscode
+/home/<username>/.nvm/versions/node
+/usr/lib/modules/6.19.10-hardened1-1-hardened/build
+/home/<username>/.config/libreoffice
+/home/<username>/.var/app/org.mozilla.firefox/cache
