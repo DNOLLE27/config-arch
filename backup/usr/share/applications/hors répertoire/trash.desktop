@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Corbeille
+Exec=kioclient exec trash:/
+Icon=user-trash
+Type=Application
+Actions=Empty;
+
+[Desktop Action Empty]
+Name=Vider la corbeille
+Exec=ktrash6 --empty
+Icon=edit-delete
