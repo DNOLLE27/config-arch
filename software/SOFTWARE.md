@@ -27,3 +27,4 @@ Je tenterais de les mettre à jour, mais si besoin, vous pourrez rechercher le l
 18. [Eclipse IDE.](./md/eclipse.md)
 19. [Docker Desktop.](./md/docker-desktop.md)
 20. [Cours.](./md/cours.md)
+21. [KDE Connect.](./md/kdeconnect.md)
