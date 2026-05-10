@@ -39,7 +39,7 @@ sudo fail2ban-client unban <ip de votre appareil>
 ```
 
 > [!NOTE]
-> Les configurations dans [SECURITY#Fail2Ban](../../security/md/fail2ban.md) ont été changées en conséquence.
+> Les configurations dans [SECURITY#Fail2Ban](../../security/md/fail2ban.md) et [SECURITY#Parfeu](../../security/md/parfeu.md) ont été changées en conséquence.
 
 ### Redémarrage du daemon de KDE Connect :
 ```
