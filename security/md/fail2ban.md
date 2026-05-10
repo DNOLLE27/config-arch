@@ -14,7 +14,7 @@ sudo pacman -S fail2ban
 [DEFAULT]
 banaction = ufw
 banaction_allports = ufw[type=allports]
-ignoreip = 127.0.0.1/8 ::1
+ignoreip = 127.0.0.1/8 ::1 192.168.1.0/24
 bantime = 3600
 findtime = 600
 maxretry = 5
@@ -23,20 +23,20 @@ maxretry = 5
 enabled = true
 filter = ufw.aggressive
 action = ufw[type=allports]
-backend=systemd
+backend = systemd
 journalmatch = _TRANSPORT=kernel
-maxretry = 1
-bantime = -1
+maxretry = 5
+bantime = 3600
 
 [sshd]
 enabled = true
-backend=systemd
-filter=sshd
-mode=normal
-port=22
-protocol=tcp
-maxretry=3
-bantime=-1
+backend = systemd
+filter = sshd
+mode = normal
+port = 22
+protocol = tcp
+maxretry = 3
+bantime = -1
 ```
 
 ### Configuration de /etc/fail2ban/filter.d/ufw.aggressive.conf :

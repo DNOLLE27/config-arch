@@ -1,7 +1,7 @@
 [DEFAULT]
 banaction = ufw
 banaction_allports = ufw[type=allports]
-ignoreip = 127.0.0.1/8 ::1
+ignoreip = 127.0.0.1/8 ::1 192.168.1.0/24
 bantime = 3600
 findtime = 600
 maxretry = 5
@@ -12,8 +12,8 @@ filter = ufw.aggressive
 action = ufw[type=allports]
 backend = systemd
 journalmatch = _TRANSPORT=kernel
-maxretry = 1
-bantime = -1
+maxretry = 5
+bantime = 3600
 
 [sshd]
 enabled = true

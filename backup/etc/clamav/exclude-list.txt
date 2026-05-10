@@ -9,3 +9,4 @@
 /usr/lib/modules/6.19.10-hardened1-1-hardened/build
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox/cache
+/usr/share/nmap
