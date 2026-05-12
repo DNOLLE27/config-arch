@@ -105,6 +105,7 @@ ExcludePath ^/home/<username>/.nvm/versions/node/
 ExcludePath ^/usr/lib/modules/6.19.10-hardened1-1-hardened/build/
 ExcludePath ^/home/<username>/.config/libreoffice/
 ExcludePath ^/home/<username>/.var/app/org.mozilla.firefox/cache/
+ExcludePath ^/usr/share/nmap/
 ```
 
 Pour l'analyse en temps réel (clamonacc), en théorie, vous devriez utiliser : ```OnAccessExcludePath ``` dans : ```/etc/clamav/clamd.conf```, sauf que pour une raison qui m'est inconnue, cette instruction n'est soit pas prise en compte, soit seulement certains sous-répertoire, soit est complétement prise en compte.
@@ -124,6 +125,7 @@ Par exemple :
 /usr/lib/modules/6.19.10-hardened1-1-hardened/build
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox/cache
+/usr/share/nmap
 ```
 > [!TIP]
 > Pour voir les répertoires exclus avec clamonacc, il suffit de regarder les logs du service.
@@ -406,6 +408,7 @@ sudo maldet -u
 Afin d'éviter qu'ils suppriment leurs propres fichiers (notamment ceux contenants les signatures des virus) et donc ne supprime des fichiers empêchant leur fonctionnement, il suffit d'ajouter dans le fichier "/usr/local/maldetect/ignore_paths" :
 ```
 /usr/local/maldetect
+/usr/local/sbin/maldet
 /var/lib/clamav
 /etc/clamav
 /run/clamav
@@ -418,6 +421,7 @@ Afin d'éviter qu'ils suppriment leurs propres fichiers (notamment ceux contenan
 /usr/lib/modules/6.19.10-hardened1-1-hardened/build
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox/cache
+/usr/share/nmap
 ```
 
 ### Lancer une analyse avec LMD + ClamAV :
