@@ -13,7 +13,7 @@ L'avantage est que cela nous permet d'en apprendre plus sur le fonctionnement d'
 > [!IMPORTANT]
 > L'objectif de ce dépôt n'est pas du tout de remplacer les différentes ressources existantes, il s'agit d'un moyen pour moi de sauvegarder mes configurations et procédures d'installation. Mais si cela peut servir à d'autres personnes, j'ai donc décidé de les partager ici.
 
-_Publié le 07/05/2026 à 23:21, modifié le 12/05/2026 à 23:16._
+_Publié le 07/05/2026 à 23:21, modifié le 14/05/2026 à 12:46._
 
 ## Sommaire :
 1. [Installation d'Arch.](./install/INSTALL.md)

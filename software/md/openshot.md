@@ -2,7 +2,7 @@
 
 Il s'agit d'un logiciel de montage vidéo gratuit et open source.
 
-Télécharger le .appimage :
+Téléchargement du .appimage :
 
 https://www.openshot.org/download/
 
@@ -11,7 +11,7 @@ Modification des permissions du fichier, pour ajouter le droit d'exécution :
 chmod +x OpenShot-[version]-x86_64.AppImage
 ```
 
-Enfin on peut ajouter le fichier dans un répertoire contenu dans la variable d'environnement PATH et un alias dans .bashrc :
+Enfin on peut ajouter le fichier dans un répertoire contenu dans la variable d'environnement PATH :
 ```
 ln -s ~/soft-local/appimage/OpenShot-v3.5.1-x86_64.AppImage ~/soft-local/path/openshot
 ```

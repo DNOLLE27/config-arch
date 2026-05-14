@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=30.0.0
+Name=Draw.io
+Comment=Logiciel de réalisation de diagrammes
+Exec=/home/<username>/soft-local/appimage/drawio-x86_64-30.0.0.AppImage
+Path=/home/<username>/soft-local/appimage/
+Icon=/home/<username>/Images/Icons/drawio-icon.png
+Terminal=false
+Type=Application
+Categories=AudioVideo;

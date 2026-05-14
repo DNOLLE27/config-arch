@@ -17,10 +17,11 @@ On retrouve :
 - Scite (IDE Java et plus).
 - hunspell-fr (dictionnaire français pour correcteur orthographique).
 - fastfetch (permet d'obtenir des informations sur le système depuis le terminal).
+- Xournal++ (permet de prendre des notes, sur des pages avec des designs de feuilles).
 
 Il suffit tout simplement d'exécuter la commande suivante :
 ```
-sudo pacman -S htop thunderbird libreoffice-fresh-fr filezilla mysql-workbench wireshark-qt inkscape obsidian audacity obs-studio vlc vlc-plugins-all scite hunspell-fr fastfetch
+sudo pacman -S htop thunderbird libreoffice-fresh-fr filezilla mysql-workbench wireshark-qt inkscape obsidian audacity obs-studio vlc vlc-plugins-all scite hunspell-fr fastfetch xournalpp
 ```
 
 ## Wireshark :
