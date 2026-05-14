@@ -32,7 +32,7 @@ Path=/usr/bin
 Icon=/usr/share/swcatalog/icons/archlinux-arch-extra/128x128/gimp_gimp.png
 Terminal=false
 Type=Application
-Categories=Development;
+Categories=Graphics;
 ```
 
 ### VideoDownloader :
@@ -58,7 +58,7 @@ Path=/usr/bin
 Icon=/home/<username>/Images/Icons/videodownloader-icon.png
 Terminal=false
 Type=Application
-Categories=Development;
+Categories=AudioVideo;
 ```
 
 ### Mozilla Firefox :
@@ -95,5 +95,5 @@ Path=/usr/bin
 Icon=/home/<username>/Images/Icons/firefox-icon.png
 Terminal=false
 Type=Application
-Categories=Development;
+Categories=Network;
 ```

@@ -7,4 +7,4 @@ Path=/usr/bin
 Icon=/home/<username>/Images/Icons/videodownloader-icon.png
 Terminal=false
 Type=Application
-Categories=Development;
+Categories=AudioVideo;

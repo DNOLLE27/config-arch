@@ -27,5 +27,5 @@ Path=/home/<username>/soft-local/appimage/
 Icon=/home/<username>/Images/Icons/drawio-icon.png
 Terminal=false
 Type=Application
-Categories=AudioVideo;
+Categories=Graphics;
 ```
