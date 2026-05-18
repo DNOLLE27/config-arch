@@ -198,12 +198,14 @@ cp -r ../googletest/include .
 
 Il suffit de télécharger l'archive depuis le [site officiel](https://www.doxygen.nl/download.html), puis de l'extraire où vous voulez.
 
+Pour ma part, je le mets dans le répertoire ```~/doxygen```, afin de faciliter les mises à jour.
+
 > [!IMPORTANT]
 > Il ne faut pas prendre le code source, mais la version "tarball".
 
 Configuration de .bashrc :
 ```
-PATH=$PATH:[...]:~/doxygen-1.16.1/bin
+PATH=$PATH:[...]:~/doxygen/bin
 ```
 
 ## Vite :

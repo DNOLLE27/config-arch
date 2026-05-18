@@ -9,7 +9,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
-PATH=$PATH:~/Documents/scripts:~/soft-local/path:~/composer:~/.config/symfony-cli/bin:~/doxygen-1.16.1/bin
+PATH=$PATH:~/Documents/scripts:~/soft-local/path:~/composer:~/.config/symfony-cli/bin:~/doxygen/bin
 
 alias av-scan=av-scan.sh
 alias launch_wireshark=launch_wireshark.sh
