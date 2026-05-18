@@ -34,6 +34,19 @@ Lancement du build :
 make -j1
 ```
 
+Si, lors du build, vous avez une erreur SSL comme ci-dessous :
+![Image Erreur SSL Build MikTex](../Images/erreur-verif-ssl-build-miktex.png)
+
+Il faut que vous mettiez à jour vos certificats :
+```
+sudo pacman -Syu ca-certificates ca-certificates-utils ca-certificates-mozilla
+
+sudo update-ca-trust
+```
+
+> [!IMPORTANT]
+> Il se peut que l'erreur se répète plusieurs fois, vous serez donc amené à exécuter les commandes plusieurs fois.
+
 Si, lors du build, vous avez un échec par rapport à hitex, il faut alors exécuter la commande suivante dans le répertoire ./build/Programs/TeXAndFriends/hitex :
 ```
 LIBDIR="../../../sandbox/miktex/bin/linux-x86_64"
