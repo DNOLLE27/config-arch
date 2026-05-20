@@ -97,6 +97,19 @@
 /home/<username> : 
 - .bashrc (-rw-r--r-- <username> <username>)
 
+/home/<username>/Images/Icons :
+- codeblocks-icon.png (-rw-r--r-- <username> <username>)
+- drawio-icon.png (-rw-r--r-- <username> <username>)
+- firefox-icon.png (-rw-r--r-- <username> <username>)
+- mars.png (-rw-r--r-- <username> <username>)
+- openshot-icon.png (-rw-r--r-- <username> <username>)
+- python-idle-icon.png (-rw-r--r-- <username> <username>)
+- texworks-icon.png (-rw-r--r-- <username> <username>)
+- videodownloader-icon.png (-rw-r--r-- <username> <username>)
+- vscode-icon.png (-rw-r--r-- <username> <username>)
+- xnor.png (-rw-r--r-- <username> <username>)
+
+
 /usr/lib/systemd/system : 
 - clamav-clamonacc.service (-rw-r--r-- root root)
 
@@ -122,3 +135,10 @@
 - postman.desktop (-rwxr--r-- <username> <username>)
 - texworks.desktop (-rwxr--r-- <username> <username>)
 - vscode.desktop (-rwxr--r-- <username> <username>)
+- drawio.desktop (-rwxr--r-- root root)
+
+/usr/share/applications/hors répertoire :
+- firefox.desktop (-rwxr--r-- <username> <username>)
+- gimp.desktop (-rwxr--r-- <username> <username>)
+- trash.desktop (-rwxr--r-- <username> <username>)
+- videodownloader.desktop (-rwxr--r-- <username> <username>)
