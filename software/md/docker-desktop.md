@@ -2,7 +2,7 @@
 
 Docker-Desktop est une interface graphique pour Docker, permettant donc de créer et de gérer des environnements d'exécutions isolés (containers), à des fins de développements et de déploiement.
 
-La procédure d'installation est complètement décrite dans la [documentation officielle](docs.docker.com/desktop/setup/install/linux/archlinux/) de Docker.
+La procédure d'installation est complètement décrite dans la [documentation officielle](https://docs.docker.com/desktop/setup/install/linux/archlinux/) de Docker.
 
 ### Installation du binaire du client Docker :
 
