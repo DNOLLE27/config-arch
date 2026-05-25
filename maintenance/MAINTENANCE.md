@@ -65,3 +65,5 @@ sudo journalctl -u <nom du service> --no-pager -n <nombre de lignes à afficher>
 
 > [!NOTE]
 > Dans le cadre de ces deux commandes, il est possible d'utiliser l'option "--user", permettant ainsi de spécifier que le service est utilisateur, c'est-à-dire un service exécuté uniquement dans un contexte d'un utilisateur spécifique.
+
+Si vous utilisez KDE Plamsa, vous pouvez accéder à une interface graphique, permettant de naviguer dans les logs système, nommée : Kjournald.
