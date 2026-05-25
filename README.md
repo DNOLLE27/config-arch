@@ -13,10 +13,11 @@ L'avantage est que cela nous permet d'en apprendre plus sur le fonctionnement d'
 > [!IMPORTANT]
 > L'objectif de ce dépôt n'est pas du tout de remplacer les différentes ressources existantes, il s'agit d'un moyen pour moi de sauvegarder mes configurations et procédures d'installation. Mais si cela peut servir à d'autres personnes, j'ai donc décidé de les partager ici.
 
-_Publié le 07/05/2026 à 23:21, modifié le 21/05/2026 à 16:47_
+_Publié le 07/05/2026 à 23:21, modifié le 25/05/2026 à 16:01_
 
 ## Sommaire :
 1. [Installation d'Arch.](./install/INSTALL.md)
 2. [Sécurité.](./security/SECURITY.md)
 3. [Environnement desktop.](./desktop/DESKTOP.md)
 4. [Logiciels.](./software/SOFTWARE.md)
+5. [Maintenance.](./maintenance/MAINTENANCE.md)
