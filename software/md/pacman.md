@@ -49,3 +49,21 @@ Il s'agit d'un ensemble de dictionnaires français, pouvant être installés ave
 ```
 ln -s /usr/share/hunspell/* ~/.config/Code/Dictionaries
 ```
+
+### OBS Studio :
+
+Si jamais, lors de l'ajout d'une source de capture d'écran (PipeWire), vous n'avez pas le sélecteur qui s'ouvre et aucun écran à sélectionner :
+
+![Capture d'écran aucune source d'écran OBS](../Images/aucune-source-ecran-obs.png)
+
+Il se peut que si vous avez Firejail d'installé et d'automatiquement configuré, un profil pour OBS est chargé, empêchant donc son fonctionnement.
+
+Dans un premier temps, assurez-vous que vous avez bien tous les prérequis pour OBS :
+```
+sudo pacman -S obs-studio pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-kde
+```
+
+Puis supprimer le profil par défaut de Firejail :
+```
+sudo rm /usr/local/bin/obs
+```
