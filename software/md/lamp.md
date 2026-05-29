@@ -52,6 +52,8 @@ sudo systemctl restart httpd
 
 ## Installation de MariaDB :
 
+### Installation et configuration :
+
 Installation du serveur MariaDB :
 ```
 sudo pacman -S mariadb
@@ -88,6 +90,25 @@ sudo mariadb
 
 # Requête SQL à exécuter dans MariaDB :
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'mdp';
+```
+
+### Accès sur le réseau local :
+
+Si vous souhaitez autoriser l'accès au serveur MariaDB à votre réseau local, veuillez suivre la procédure suivante.
+
+Autorisation du port de MariaDB pour le réseau local dans le pare-feu (UFW) :
+```
+sudo ufw allow from 192.168.1.0/24 to any port 3306 proto tcp
+sudo ufw reload
+```
+
+Création d'un utilisateur utilisable sur le réseau local :
+```
+sudo mariadb
+
+CREATE USER 'user'@'192.168.1.%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON database.* TO 'user'@'192.168.1.%';
+FLUSH PRIVILEGES;
 ```
 
 ## Installation de PHP :
