@@ -106,6 +106,9 @@ ExcludePath ^/usr/lib/modules/6.19.10-hardened1-1-hardened/build/
 ExcludePath ^/home/<username>/.config/libreoffice/
 ExcludePath ^/home/<username>/.var/app/org.mozilla.firefox/cache/
 ExcludePath ^/usr/share/nmap/
+ExcludePath ^/opt/unityhub/
+ExcludePath ^/home/<username>/Unity/Hub/
+ExcludePath ^/usr/share/dotnet/
 ```
 
 Pour l'analyse en temps réel (clamonacc), en théorie, vous devriez utiliser : ```OnAccessExcludePath ``` dans : ```/etc/clamav/clamd.conf```, sauf que pour une raison qui m'est inconnue, cette instruction n'est soit pas prise en compte, soit seulement certains sous-répertoire, soit est complétement prise en compte.
@@ -126,6 +129,9 @@ Par exemple :
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox/cache
 /usr/share/nmap
+/opt/unityhub
+/home/<username>/Unity/Hub
+/home/<username>/Documents/Workspace/Unity
 ```
 > [!TIP]
 > Pour voir les répertoires exclus avec clamonacc, il suffit de regarder les logs du service.
@@ -422,6 +428,9 @@ Afin d'éviter qu'ils suppriment leurs propres fichiers (notamment ceux contenan
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox/cache
 /usr/share/nmap
+/opt/unityhub
+/home/<username>/Unity/Hub
+/home/<username>/Documents/Workspace/Unity
 ```
 
 ### Lancer une analyse avec LMD + ClamAV :

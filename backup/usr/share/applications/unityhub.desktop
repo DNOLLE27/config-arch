@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=3.18.0
+Name=Unity Hub
+Comment=The Official Unity Hub
+Exec=/opt/unityhub/unityhub %U
+Path=/opt/unityhub
+Icon=/usr/share/icons/hicolor/512x512/apps/unityhub.png
+Terminal=false
+Type=Application
+Categories=Development;

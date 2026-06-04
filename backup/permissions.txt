@@ -136,6 +136,7 @@
 - texworks.desktop (-rwxr--r-- <username> <username>)
 - vscode.desktop (-rwxr--r-- <username> <username>)
 - drawio.desktop (-rwxr--r-- root root)
+- unityhub.desktop (-rw-r--r-- root root)
 
 /usr/share/applications/hors répertoire :
 - firefox.desktop (-rwxr--r-- <username> <username>)
