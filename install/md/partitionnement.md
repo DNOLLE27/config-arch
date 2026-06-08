@@ -11,7 +11,7 @@ lsblk
 
 ### Création de la table GPT :
 ```
-fdisk /dev/
+fdisk /dev/<nom disque (sans le numéro de partition)>
 g
 w
 ```
@@ -24,7 +24,7 @@ w
 
 ### Sinon :
 ```
-cfdisk /dev/
+cfdisk /dev/<nom disque (sans le numéro de partition)>
 ```
 
 On vient créer 3 partitions :
@@ -37,14 +37,14 @@ On vient créer 3 partitions :
 
 ### Attribution d'un système de fichier pour chaque partition :
 ```
-mkfs.fat -F 32 /dev/
-mkswap /dev/
-mkfs.ext4 /dev/
+mkfs.fat -F 32 /dev/<partition boot>
+mkswap /dev/<partition swap>
+mkfs.ext4 /dev/<partition racine>
 ```
 
 ### Montage des partitions sur le support d'installation :
 ```
-mount /dev/ /mnt
-mount --mkdir /dev/ /mnt/boot
-swapon /dev/
+mount /dev/<partition racine> /mnt
+mount --mkdir /dev/<partition boot> /mnt/boot
+swapon /dev/<partition swap>
 ```

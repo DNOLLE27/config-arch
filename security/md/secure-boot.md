@@ -17,6 +17,11 @@ sudo sbctl create-keys
 sudo sbctl enroll-keys -m
 ```
 
+> [!CAUTION]
+> Lors de cette étape, il faut que le Secure Boot soit en mode Setup, c'est-à-dire que toutes les clés soient supprimées (en règle générale, dans le cadre des BIOS UEFI modernes, nous avons un bouton "Reset to Setup Mode" de disponible). 
+>
+> Attention à bien s'assurer que votre Secure Boot ne soit pas automatiquement alimenté au démarrage, car cela peut empêcher de passer en Setup Mode (il suffit de désactiver une option du type "Factory Key Provision") !
+
 ### Signature des images :
 ```
 sudo sbctl sign -s /boot/vmlinuz-<noyau>

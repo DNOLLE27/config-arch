@@ -96,27 +96,27 @@ editor   no
 
 Récupération de l'UUID de la partition racine :
 ```
-blkid | grep  | cut -d'"' -f 2 >> /boot/loader/entries/arch.conf
+blkid | grep <partition racine> | cut -d'"' -f 2 >> /boot/loader/entries/arch.conf
 ```
 
 Configuration de l'entrée de base :
 ```
 title   Arch Linux
-linux   /vmlinuz-
-initrd  /initramfs-.img
-options root=UUID= rw
+linux   /vmlinuz-<noyau>
+initrd  /initramfs-<noyau>.img
+options root=UUID=<UUID> rw
 ```
 
 Si le disque est chiffré :
 ```
 ...
-options rd.luks.name== root=/dev/mapper/ rw
+options rd.luks.name=<UUID>=<nom partition chiffrée> root=/dev/mapper/<nom partition chiffrée> rw
 ```
 
 > [!CAUTION] 
 > Il ne faut pas mettre l'UUID de la partition déchiffré et ouverte, mais bel et bien celui de la partition accueillant le chiffrement (celui du disque) !
 
-Configuration /etc/mkinitcpio.d/.preset :
+Configuration /etc/mkinitcpio.d/\<noyau>.preset :
 ```
 ALL_config="/etc/mkinitcpio.conf"
 #PRESETS=('default')
@@ -129,7 +129,7 @@ Configuration de l'entrée (fallback) :
 cp arch.conf arch-fallback.conf
 
 # Modifier initrd en :
-initrd  /initramfs--fallback.img
+initrd  /initramfs-<noyau>-fallback.img
 ```
 
 ## Installation et configuration du microcode pour le CPU :
@@ -152,7 +152,7 @@ Pour charger le microcode, deux solutions sont possibles.
 
 Soit on réuni l'image du microcode, avec l'initramfs principal :
 ```
-Modifier /etc/mkinitcpio.conf :
+# Modifier /etc/mkinitcpio.conf :
 HOOKS=(... microcode autodetect ...)
 ```
 
@@ -161,9 +161,9 @@ Soit on le garde dans un fichier séparé :
 On modifie d'abord les entrées du bootloader :
 ```
 ...
-linux   /vmlinuz-
+linux   /vmlinuz-<noyau>
 initrd  /amd-ucode.img
-initrd  /initramfs-.img
+initrd  /initramfs-<noyau>.img
 ...
 ```
 
@@ -195,6 +195,6 @@ exit
 ### On retire les points montés du support d'installation :
 ```
 umount -R /mnt
-swapoff /dev/
+swapoff /dev/<partition swap>
 reboot
 ```

@@ -70,22 +70,22 @@ device list
 
 Si la carte réseau a comme valeur "off" pour la propriété "powered" :
 ```
-device/adapter  set-property Powered on
+device/adapter <nom> set-property Powered on
 ```
 
 Scanner les réseaux :
 ```
-station  scan
+station <nom> scan
 ```
 
 Obtenir la liste des réseaux disponible (et leur SSID, qui est le nom du réseau) :
 ```
-station  get-networks
+station <nom> get-networks
 ```
 
 Pour se connecter au réseau :
 ```
-station  connect 
+station <nom> connect <SSID> 
 ```
 
 Pour sortir d'iwctl :

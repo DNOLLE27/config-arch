@@ -25,7 +25,7 @@ systemctl start NetworkManager
 Puis se connecter à votre réseau :
 ```
 nmcli device wifi list
-nmcli device wifi connect  password 
+nmcli device wifi connect <SSID> password <mdp>
 ```
 
 ### Première mise à jour du système :

@@ -32,9 +32,9 @@ pacman -S gdisk efibootmgr
 
 Correction du type de la partition :
 ```
-gdisk /dev/
+gdisk /dev/<disque (sans la partition)>
 t
-1
+<numéro de la partition boot>
 ef00
 w
 ```
@@ -54,7 +54,7 @@ efibootmgr -b XXXX -B
 
 Puis :
 ```
-efibootmgr --create --disk /dev/nvme0n1 --part 1 --label "Linux Boot Manager" --loader '\EFI\systemd\systemd-bootx64.efi'
+efibootmgr --create --disk /dev/<disque (sans la partition)> --part <numéro de la partition boot> --label "Linux Boot Manager" --loader '\EFI\systemd\systemd-bootx64.efi'
 efibootmgr
 ```
 

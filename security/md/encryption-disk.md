@@ -1,4 +1,4 @@
-# Chiffrement d'un disque (LUKS/Secure Boot/TPM2)
+# Chiffrement d'un disque (LUKS/Secure Boot/TPM2) ([retour](../SECURITY.md))
 
 Pour chiffrer la partition contenant le système et vos données, nous utiliserons le format LUKS et TMP2 pour contenir la clé pour l'ouvrir, afin de ne pas avoir le mot de passe à saisir à chaque redémarrage.
 
@@ -12,7 +12,7 @@ Pour chiffrer la partition contenant le système et vos données, nous utilisero
 Comme dans [INSTALL#partitionnement](../../install/md/partitionnement.md), nous utiliserons l'outil cfdisk pour partitionner le disque.
 
 ```
-cfdisk /dev/
+cfdisk /dev/<nom disque (sans le numéro de partition)>
 ```
 
 On vient créer 2 partitions :
@@ -24,20 +24,20 @@ On vient créer 2 partitions :
 ### Attribution d'un système de fichier pour chaque partition :
 ```
 # Partition boot :
-mkfs.fat -F 32 /dev/
+mkfs.fat -F 32 /dev/<partition boot>
 
 # Création et ouverture de la partition chiffrée :
-cryptsetup luksFormat /dev/
-cryptsetup open /dev/ 
+cryptsetup -v luksFormat /dev/<partition racine>
+cryptsetup open /dev/<partition racine> <nom partition chiffrée (exemple : root)>
 
 # Attribution du système de fichier pour la partition racine :
-mkfs.ext4 /dev/mapper/
+mkfs.ext4 /dev/mapper/<nom partition chiffrée>
 ```
 
 ### Montage des partitions sur le support d'installation :
 ```
-mount /dev/mapper/ /mnt
-mount --mkdir /dev/ /mnt/boot
+mount /dev/mapper/<nom partition chiffrée> /mnt
+mount --mkdir /dev/<partition boot> /mnt/boot
 ```
 
 ## Configuration Initramfs :
@@ -55,8 +55,8 @@ Pour utiliser TPM, il faut d'abord activer le Secure Boot :
 
 ### Création des clés de récupération et enrôlement du TPM :
 ```
-systemd-cryptenroll /dev/ --recovery-key
-systemd-cryptenroll /dev/ --wipe-slot=empty --tpm2-device=auto --tpm2-pcrs=7+15:sha256=0000000000000000000000000000000000000000000000000000000000000000
+systemd-cryptenroll /dev/<partition racine> --recovery-key
+systemd-cryptenroll /dev/<partition racine> --wipe-slot=empty --tpm2-device=auto --tpm2-pcrs=7+15:sha256=0000000000000000000000000000000000000000000000000000000000000000
 ```
 
 > [!CAUTION]
