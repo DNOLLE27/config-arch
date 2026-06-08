@@ -56,7 +56,7 @@ Si jamais elle est bloquée, il faut savoir que nous avons 2 types de blocages :
 \- Matériel (hard) : 
 il faut se renseigner sur la carte.
 
-\- Logiciel (soft) : ```rfkill unblock ```.
+\- Logiciel (soft) : ```rfkill unblock <nom/type>```.
 
 Pour se connecter à une box :
 ```
