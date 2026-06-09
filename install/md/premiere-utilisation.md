@@ -99,7 +99,7 @@ Pour installer un thème, il suffit d'extraire le contenu de l'archive dans :
 
 Puis d'activer le thème par défaut :
 ```
-sudo plymouth-set-default-theme -R 
+sudo plymouth-set-default-theme -R <nom du thème>
 ```
 
 ### Installation de l'environnement de desktop :
