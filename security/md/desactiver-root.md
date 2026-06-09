@@ -10,13 +10,13 @@ Une bonne pratique, quelle que soit la distribution Linux, est de toujours désa
 
 ### Création d'un compte utilisateur :
 ```
-useradd -m -U 
-passwd 
+useradd -m -U <username>
+passwd <username>
 ```
 
 ### Ajout du groupe "wheel" à notre nouvel utilisateur :
 ```
-usermod -aG wheel $USER
+usermod -aG wheel <username>
 ```
 
 ### Ajout du groupe "wheel" en tant que sudoers :
