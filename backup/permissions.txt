@@ -72,6 +72,7 @@
 - mkinitcpio.conf (-rw-r--r-- root root)
 - pacman.conf (-rw-r--r-- root root)
 - sudoers (-r--r----- root root)
+- sddm.conf (-rw-r--r-- root root)
 
 /home/<username>/.config/autostart :
 - apparmor-notify.desktop (-rw-r--r-- root root)
