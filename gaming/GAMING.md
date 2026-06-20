@@ -16,7 +16,7 @@ Il faut aussi noter que, lors de la réalisation de ce dépôt, le système qui 
 De plus, dans le premier système, j'ai utilisé le noyau linux-hardened, qui est une version plus sécurisée du noyau Linux. Dans le second, j'ai utilisé le noyau linux-zen, qui est une version plus optimisée, idéale pour le gaming.
 
 ## Sommaire :
-1. [Installation du driver GPU (NVidia).](./md/install-nvidia-driver)
+1. [Installation du driver GPU (NVidia).](./md/install-nvidia-driver.md)
 2. [Configurations et outils.](./md/config-tools.md)
 3. [Installation et configurations des launchers.](./md/launchers.md)
 4. [Configuration de jeux.](./md/config-jeux.md)
