@@ -108,7 +108,13 @@ ExcludePath ^/home/<username>/.var/app/org.mozilla.firefox/cache/
 ExcludePath ^/usr/share/nmap/
 ExcludePath ^/opt/unityhub/
 ExcludePath ^/home/<username>/Unity/Hub/
+ExcludePath ^/home/<username>/Documents/Workspace/Unity/
 ExcludePath ^/usr/share/dotnet/
+ExcludePath ^/home/<username>/.cache/Unity/
+ExcludePath ^/home/<username>/soft-local/VSCode-linux-x64/resources/app/extensions/
+ExcludePath ^/home/<username>/.var/app/com.opera.opera-gx/config/opera-gx/Default/
+ExcludePath ^/home/<username>/.p2/pool/plugins/
+ExcludePath ^/home/<username>/.xmake/packages/p/python/3.14.3/
 ```
 
 Pour l'analyse en temps réel (clamonacc), en théorie, vous devriez utiliser : ```OnAccessExcludePath ``` dans : ```/etc/clamav/clamd.conf```, sauf que pour une raison qui m'est inconnue, cette instruction n'est soit pas prise en compte, soit seulement certains sous-répertoire, soit est complétement prise en compte.
@@ -132,6 +138,12 @@ Par exemple :
 /opt/unityhub
 /home/<username>/Unity/Hub
 /home/<username>/Documents/Workspace/Unity
+/usr/share/dotnet
+/home/<username>/.cache/Unity
+/home/<username>/soft-local/VSCode-linux-x64/resources/app/extensions
+/home/<username>/.var/app/com.opera.opera-gx/config/opera-gx/Default
+/home/<username>/.p2/pool/plugins
+/home/<username>/.xmake/packages/p/python/3.14.3
 ```
 > [!TIP]
 > Pour voir les répertoires exclus avec clamonacc, il suffit de regarder les logs du service.
@@ -431,6 +443,12 @@ Afin d'éviter qu'ils suppriment leurs propres fichiers (notamment ceux contenan
 /opt/unityhub
 /home/<username>/Unity/Hub
 /home/<username>/Documents/Workspace/Unity
+/usr/share/dotnet
+/home/<username>/.cache/Unity
+/home/<username>/soft-local/VSCode-linux-x64/resources/app/extensions
+/home/<username>/.var/app/com.opera.opera-gx/config/opera-gx/Default
+/home/<username>/.p2/pool/plugins
+/home/<username>/.xmake/packages/p/python/3.14.3
 ```
 
 ### Lancer une analyse avec LMD + ClamAV :

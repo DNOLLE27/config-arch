@@ -16,10 +16,15 @@
 /opt/unityhub
 /home/<username>/Unity/Hub
 /home/<username>/Documents/Workspace/Unity
+/usr/share/dotnet
+/home/<username>/.cache/Unity
+/home/<username>/soft-local/VSCode-linux-x64/resources/app/extensions
+/home/<username>/.var/app/com.opera.opera-gx/config/opera-gx/Default
+/home/<username>/.p2/pool/plugins
+/home/<username>/.xmake/packages/p/python/3.14.3
 /home/<username>/Games
 /home/<username>/.local/share/umu
 /home/<username>/.local/share/lutris
 /home/<username>/.local/share/Steam
 /home/<username>/.local/share/Steam/compatibilitytools.d/GE-Proton10-34/files
 /home/<username>/.cache/net.lutris.Lutris/WebKitCache
-/usr/share/edk2-shell
