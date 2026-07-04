@@ -53,5 +53,8 @@ sed -i \
 Et enfin, de tester et appliquer le patch depuis le répertoire /usr/src/vboxhost-7.2.6_OSE :
 
 ```
-sudo patch -p1 --dry-run  [!WARNING]
+sudo patch -p1 --dry-run < ~/Téléchargements/kernel-6.19.arch.patch
+```
+
+> [!WARNING]
 > Il se peut que le patch ne soit plus valable (soit parce qu'il n'est plus d'actualité pour votre version de noyau ou de VirtualBox, soit parce que les dernières mises à jours de VirtuaBox corrigerons le problème pour votre noyau).
