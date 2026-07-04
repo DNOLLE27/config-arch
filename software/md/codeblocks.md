@@ -19,6 +19,10 @@ cd wxWidgets-3.0.3
 
 ./configure --enable-unicode --enable-monolithic --enable-debug --enable-shared
 
+# Si jamais vous avez une erreur du type "error: utilisation de la 
+# fonction supprimée [...]" à la ligne 223 :
+CXXFLAGS="-std=gnu++17" ./configure
+
 make
 
 sudo make install
