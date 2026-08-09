@@ -1,0 +1,16 @@
+/var/log/account/pacct {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0600 root root
+    sharedscripts
+    prerotate
+        /usr/local/sbin/accton off
+    endscript
+    postrotate
+        /usr/local/sbin/accton /var/log/account/pacct
+    endscript
+}

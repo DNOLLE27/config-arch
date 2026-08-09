@@ -1,0 +1,11 @@
+[Unit]
+Description=AIDE file integrity check
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/aide --check
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+SuccessExitStatus=1 2 3 4 5 6 7

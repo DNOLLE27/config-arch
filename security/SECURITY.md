@@ -15,4 +15,5 @@ Il faut savoir que, lors d'une nouvelle installation d'Arch, aucun élément de 
 8. [Installation de Firejail.](./md/firejail.md)
 9. [Installation d'USBGuard.](./md/usbguard.md)
 10. [Activer le Secure Boot.](./md/secure-boot.md)
-11. [Troubleshooting.](./md/troubleshoot-security.md)
+11. [Lynis.](./md/lynis.md)
+12. [Troubleshooting.](./md/troubleshoot-security.md)

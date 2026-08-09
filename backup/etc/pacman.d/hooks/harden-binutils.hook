@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = gcc
+
+[Action]
+Description = Restrict compiler and binutils permissions
+When = PostTransaction
+Exec = /usr/bin/sh -c 'chmod 750 /usr/bin/ar /usr/bin/as /usr/bin/ld /usr/bin/nm /usr/bin/objcopy /usr/bin/objdump /usr/bin/strip /usr/bin/g++ /usr/bin/c++ /usr/bin/gcc'

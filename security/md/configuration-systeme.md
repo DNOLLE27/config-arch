@@ -96,8 +96,8 @@ Modification de /etc/pam.d/passwd :
 ```
 #%PAM-1.0
 ...
-password	require		pam_quality.so retry=2 minlen=10 difok=6 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 [badwords=myservice mydomain] enforce_for_root
-password	require		pam_unix.so use_authtok sha512 shadow
+password        required        pam_pwquality.so retry=2 minlen=10 difok=6 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 [badwords=myservice mydomain] enforce_for_root
+password        required        pam_unix.so use_authtok sha512 shadow
 ```
 
 ### Autoriser uniquement les utilisateurs du groupe "wheel" à utiliser la commande "su" :

@@ -1,0 +1,14 @@
+[Unit]
+Description=GNU process accounting
+Documentation=man:accton(8)
+After=local-fs.target
+ConditionPathIsReadWrite=/var/log/account
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/accton /var/log/account/pacct
+ExecStop=/usr/local/sbin/accton off
+
+[Install]
+WantedBy=multi-user.target

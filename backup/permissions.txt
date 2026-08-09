@@ -8,6 +8,9 @@
 /etc/audit :
 - auditd.conf (-rw-r--r-- root root)
 
+/etc/audit/rules.d :
+- hardening.rules (-rw-r----- root root)
+
 /etc/clamav :
 - clamd.conf (-rw-r--r-- root root)
 - exclude-list.txt (-rw-r--r-- root root)
@@ -25,9 +28,14 @@
 
 /etc/httpd/conf/extra :
 - phpmyadmin.conf (-rw-r--r-- root root)
+- mod_evasive.conf (-rw-r----- root root)
+- modsecurity.conf (-rw-r----- root root)
 
 /etc/httpd/conf :
 - httpd.conf (-rw-r--r-- root root)
+
+/etc/httpd/modsecurity :
+- modsecurity.conf (-rw-r----- root root)
 
 /etc/mkinitcpio.d : 
 - linux-hardened.preset (-rw-r--r-- root root)
@@ -41,7 +49,7 @@
 - php.ini (-rw-r--r-- root root)
 
 /etc/ssh : 
-- sshd_config (-rw-r--r-- root root)
+- sshd_config (-rw------- root root)
 
 /etc/sudoers.d : 
 - clamav (-rw-r--r-- root root)
@@ -54,6 +62,16 @@
 - clamav-clamonacc-delayed-restart.timer (-rw-r--r-- root root)
 - clamav-restart-on-error.service (-rw-r--r-- root root)
 - maldet-monitor.service (-rw-r--r-- root root)
+- acct.service (-rw-r----- root root)
+- aide-check.service (-rw-r----- root root)
+- aide-check.timer (-rw-r----- root root)
+- log-martians.service (-rw-r----- root root)
+
+/etc/systemd/timesyncd.conf.d :
+- 60-lynis.conf (-rw-r--r-- root root)
+
+/etc/logrotate.d :
+- acct (-rw-r----- root root)
 
 /etc/systemd :
 - journald.conf (-rw-r--r-- root root)
@@ -73,9 +91,22 @@
 - pacman.conf (-rw-r--r-- root root)
 - sudoers (-r--r----- root root)
 - sddm.conf (-rw-r--r-- root root)
+- login.defs (-rw-r--r-- root root)
+- issue (-rw-r--r-- root root)
+- issue.net (-rw-r----- root root)
+- aide.conf (-rw-r----- root root)
+- hosts (-rw-r--r-- root root)
 
 /etc/pacman.d/hooks :
 - nvidia.hook (-rw-r--r-- root root)
+- harden-binutils.hook (-rw-r----- root root)
+
+/etc/security :
+- limits.conf (-rw-r--r-- root root)
+
+/etc/modprobe.d :
+- disable-protocols.conf (-rw-r----- root root)
+- firewire.conf (-rw-r----- root root)
 
 /home/<username>/.config/autostart :
 - apparmor-notify.desktop (-rw-r--r-- root root)
@@ -112,7 +143,6 @@
 - videodownloader-icon.png (-rw-r--r-- <username> <username>)
 - vscode-icon.png (-rw-r--r-- <username> <username>)
 - xnor.png (-rw-r--r-- <username> <username>)
-
 
 /usr/lib/systemd/system : 
 - clamav-clamonacc.service (-rw-r--r-- root root)
