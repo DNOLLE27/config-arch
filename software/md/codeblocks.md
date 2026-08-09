@@ -11,17 +11,13 @@ pacman -S wget zip xterm svn hunspell boost
 
 Installation de wxWidgets :
 ```
-wget https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.3/wxWidgets-3.0.3.tar.bz2
+wget https://github.com/wxWidgets/wxWidgets/releases/download/v3.3.3/wxWidgets-3.3.3.tar.bz2
 
-tar -x -f wxWidgets-3.0.3.tar.bz2
+tar -x -f wxWidgets-3.3.3.tar.bz2
 
-cd wxWidgets-3.0.3
+cd wxWidgets-3.3.3
 
-./configure --enable-unicode --enable-monolithic --enable-debug --enable-shared
-
-# Si jamais vous avez une erreur du type "error: utilisation de la 
-# fonction supprimée [...]" à la ligne 223 :
-CXXFLAGS="-std=gnu++17" ./configure
+./configure --enable-monolithic --enable-debug --enable-shared
 
 make
 
@@ -38,7 +34,7 @@ cd codeblocks-code
 
 ./configure  --with-contrib-plugins=all,-FileManager --prefix=/opt/codeblocks
 
-make
+sudo make
 
 sudo make install
 ```

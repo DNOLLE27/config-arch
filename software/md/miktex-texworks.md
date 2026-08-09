@@ -26,7 +26,7 @@ CFLAGS="-I/usr/include/harfbuzz" CXXFLAGS="-I/usr/include/harfbuzz" cmake .. -DU
 
 Fix de la documentation man :
 ```
-sed -i 's|http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl|/usr/share/xml/docbook/xsl-stylesheets-1.79.2-nons/manpages/docbook.xsl|' /home/<username>/Téléchargements/miktex-26.2/Documentation/Styles/manpages.xsl
+sed -i 's|http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl|/usr/share/xml/docbook/xsl-stylesheets-1.79.2-nons/manpages/docbook.xsl|' ~/Téléchargements/miktex-26.2/Documentation/Styles/manpages.xsl
 ```
 
 Lancement du build :
@@ -94,12 +94,49 @@ Puis dans le répertoire ./build/Programs/TeXAndFriends/luatex, il faut exécute
 cmake -E cmake_link_script CMakeFiles/miktex-luahbtex.dir/link.txt --verbose
 ```
 
-Enfin, il faut relancer le build :
+Puis il faut relancer le build :
+```
+make -j1
+```
+
+Si, lors du build, vous avez une erreur en rapport avec « filenoCheck » dans le fichier ```ptexenc.so.<version>```, il faut exécuter les commandes suivantes depuis le répertoire ./build :
+```
+sudo nano ../Libraries/3rd/ptexenc/source/ptexenc.c
+
+# Remplacer :
+inline int filenoCheck(FILE* f)
+
+# Par :
+static inline int filenoCheck(FILE* f)
+
+sudo rm -f Libraries/3rd/ptexenc/shared/CMakeFiles/miktex-ptexenc.dir/__/source/ptexenc.c.o
+sudo rm -f sandbox/miktex/bin/linux-x86_64/libmiktex-ptexenc.so*
+```
+
+Puis il faut relancer le build :
 ```
 make -j1
 ```
 
 Installation du build :
+```
+sudo cmake --install .
+```
+
+Si, lors de l'installation, vous avez une erreur en rapport avec le fichier ```libmiktex-fmt.so.<version>```, depuis ./build, il faut exécuter les commandes suivantes :
+```
+sudo cmake .. \
+  -DUSE_SYSTEM_HARFBUZZ=OFF \
+  -DUSE_SYSTEM_HARFBUZZ_ICU=OFF
+
+sudo cmake --build . --target help | grep -i harfbuzz
+
+sudo cmake --build . -j"$(nproc)"
+
+sudo make preinstall
+```
+
+Puis relancer l'installation :
 ```
 sudo cmake --install .
 ```
