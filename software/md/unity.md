@@ -28,6 +28,15 @@ sudo cp -r opt/* /opt/
 sudo cp -r usr/* /usr/
 ```
 
+Correction de /usr/share/applications/unityhub.desktop :
+```
+sudo sed -i \
+'s|^TryExec=unityhub$|TryExec=/opt/unityhub/unityhub|' \
+/usr/share/applications/unityhub.desktop
+
+sudo update-desktop-database /usr/share/applications
+```
+
 Modification de l'entrée desktop (/usr/share/applications/unityhub.desktop) :
 ```
 [Desktop Entry]
