@@ -64,11 +64,6 @@ AlertOLE2Macros yes
 AlertPartitionIntersection yes
 OnAccessExcludeUname clamav
 # OnAccessMountPath /
-OnAccessIncludePath /home
-OnAccessIncludePath /tmp
-OnAccessIncludePath /var
-OnAccessIncludePath /opt
-OnAccessIncludePath /usr
 OnAccessExtraScanning=yes
 OnAccessPrevention=no
 # OnAccessExcludeRootUID yes
@@ -76,6 +71,25 @@ VirusEvent /etc/clamav/virus-event.bash
 TemporaryDirectory /var/tmp/clamav-tmp
 ```
 
+### Configuration des watchers :
+
+Pour ajouter des watchers sur des répertoires à scanner en temps réel, nous avons deux possibilités :
+
+\- Soit dans la configuration principale (clamd.conf) :
+```
+OnAccessIncludePath /home
+OnAccessIncludePath /tmp
+OnAccessIncludePath /var
+OnAccessIncludePath /opt
+OnAccessIncludePath /usr
+```
+
+\- Soit dans un fichier à part, de la même manière que pour les exclusions.
+
+Dès lors, il faudra modifier le service clamav-clamonacc, pour rajouter l'option :
+```
+... -W <nom du fichier> ...
+```
 
 ### Création du répertoire temporaire de ClamAV :
 ```
@@ -102,7 +116,7 @@ ExcludePath ^/home/<username>/.config/Code/
 ExcludePath ^/usr/lib/libreoffice/
 ExcludePath ^/home/<username>/soft-local/Postman/
 ExcludePath ^/home/<username>/.nvm/versions/node/
-ExcludePath ^/usr/lib/modules/6.19.10-hardened1-1-hardened/build/
+ExcludePath ^/usr/lib/modules/
 ExcludePath ^/home/<username>/.config/libreoffice/
 ExcludePath ^/home/<username>/.var/app/org.mozilla.firefox/
 ExcludePath ^/usr/share/nmap/
@@ -113,7 +127,7 @@ ExcludePath ^/usr/share/dotnet/
 ExcludePath ^/home/<username>/.cache/Unity/
 ExcludePath ^/home/<username>/soft-local/VSCode-linux-x64/
 ExcludePath ^/home/<username>/.p2/pool/plugins/
-ExcludePath ^/home/<username>/.xmake/packages/p/python/3.14.3/
+ExcludePath ^/home/<username>/.xmake/packages/p/python/
 ExcludePath ^/etc/httpd/crs/
 ```
 
@@ -131,7 +145,7 @@ Par exemple :
 /usr/lib/libreoffice
 /home/<username>/soft-local/Postman
 /home/<username>/.nvm/versions/node
-/usr/lib/modules/6.19.10-hardened1-1-hardened/build
+/usr/lib/modules
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox
 /usr/share/nmap
@@ -142,7 +156,7 @@ Par exemple :
 /home/<username>/.cache/Unity
 /home/<username>/soft-local/VSCode-linux-x64
 /home/<username>/.p2/pool/plugins
-/home/<username>/.xmake/packages/p/python/3.14.3
+/home/<username>/.xmake/packages/p/python
 /etc/httpd/crs
 ```
 > [!TIP]
@@ -348,14 +362,14 @@ L'avantage de cette solution et que si ClamAV est installé, alors LMD l'utilise
 sudo pacman -S inetutils ed inotify-tools which
 ```
 
-### Téléchagement de l'archive :
+### Clone du dépôt :
 ```
-wget https://www.rfxn.com/downloads/maldetect-current.tar.gz
+git clone https://github.com/rfxn/linux-malware-detect.git
 ```
 
-### Extraction de l'archive :
+### Redirection dans le dépôt cloné :
 ```
-tar -xvf maldetect-current.tar.gz
+cd linux-malware-detect
 ```
 
 ### Installation de LMD :
@@ -436,7 +450,7 @@ Afin d'éviter qu'ils suppriment leurs propres fichiers (notamment ceux contenan
 /root/quarantine
 /home/<username>/.vscode
 /home/<username>/.nvm/versions/node
-/usr/lib/modules/6.19.10-hardened1-1-hardened/build
+/usr/lib/modules
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox      
 /usr/share/nmap
@@ -447,7 +461,7 @@ Afin d'éviter qu'ils suppriment leurs propres fichiers (notamment ceux contenan
 /home/<username>/.cache/Unity
 /home/<username>/soft-local/VSCode-linux-x64                         
 /home/<username>/.p2/pool/plugins
-/home/<username>/.xmake/packages/p/python/3.14.3
+/home/<username>/.xmake/packages/p/python
 /etc/httpd/crs
 ```
 

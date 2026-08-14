@@ -6,7 +6,7 @@
 /usr/lib/libreoffice
 /home/<username>/soft-local/Postman
 /home/<username>/.nvm/versions/node
-/usr/lib/modules/6.19.10-hardened1-1-hardened/build
+/usr/lib/modules
 /home/<username>/.config/libreoffice
 /home/<username>/.var/app/org.mozilla.firefox
 /usr/share/nmap
@@ -17,5 +17,5 @@
 /home/<username>/.cache/Unity
 /home/<username>/soft-local/VSCode-linux-x64
 /home/<username>/.p2/pool/plugins
-/home/<username>/.xmake/packages/p/python/3.14.3
+/home/<username>/.xmake/packages/p/python
 /etc/httpd/crs

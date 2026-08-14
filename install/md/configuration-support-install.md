@@ -11,7 +11,7 @@ Avant d'installer Arch, il faut configurer le support d'installation. Cela consi
 
 ```
 localectl list-keymaps
-loadkeys 
+loadkeys <keysmap>
 ```
 
 ### Augmenter la taille de caractères :
