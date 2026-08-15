@@ -14,7 +14,7 @@ pacman -S usbguard usbutils
 
 ### Configuration de /etc/usbguard/usbguard-daemon.conf :
 ```
-IPCAllowedUsers=... 
+IPCAllowedUsers=<username1> <username2> ...
 ```
 
 ### Activation du service :
@@ -30,7 +30,7 @@ Autoriser un appareil USB de manière temporaire :
 lsusb
 
 # Autoriser un appareil :
-usbguard allow-device 
+usbguard allow-device <ID>
 ```
 
 Autoriser un appareil USB de manière persistante :

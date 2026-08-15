@@ -61,7 +61,6 @@
 - clamav-clamonacc-delayed-restart.service (-rw-r--r-- root root)
 - clamav-clamonacc-delayed-restart.timer (-rw-r--r-- root root)
 - clamav-restart-on-error.service (-rw-r--r-- root root)
-- maldet-monitor.service (-rw-r--r-- root root)
 - acct.service (-rw-r----- root root)
 - aide-check.service (-rw-r----- root root)
 - aide-check.timer (-rw-r----- root root)
@@ -148,8 +147,9 @@
 - clamav-clamonacc.service (-rw-r--r-- root root)
 
 /usr/local/maldetect : 
-- conf.maldet (-rw-r--r-- <username> <username>)
+- conf.maldet (-rw-r----- <username> <username>)
 - ignore_paths (-rw-r--r-- <username> <username>)
+- monitor_paths (-rw-r--r-- <username> <username>)
 
 /usr/share/mime/packages :
 - lunacy.xml (-rw-r--r-- root root)

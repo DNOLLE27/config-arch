@@ -49,8 +49,12 @@ pacman --config <config snapshot> -Syyuu
 
 \- En installant un ou plusieurs paquets spécifiques :
 ```
+pacman --config <config snapshot> -Syy
 pacman --config <config snapshot> -S <liste de paquets>
 ```
+
+> [!NOTE]
+> Pour revenir aux BDD plus récentes : ```pacman -Syy```.
 
 ## Zone de test avec une snapshot :
 
@@ -111,10 +115,41 @@ ldd <chemin vers binaire>
 
 ## Empêcher la mise à jour d'un paquet avec pacman :
 
-Pour dela, il suffit d'éditer le fichier ```/etc/pacman.conf```, de la manière suivante :
+Pour cela, il suffit d'éditer le fichier ```/etc/pacman.conf```, de la manière suivante :
 ```
 [options]
 ...
 IgnorePkg = <paquet(s) espacés>
 ...
+```
+
+## Désactivation et suppression d'un service personnalisé :
+
+Lors de mises à jour ou de downgrades, vous pouvez être amené à supprimer les services que vous avez pu créer :
+```
+sudo systemctl disable --now <nom du service>
+sudo rm </chemin/original/vers/le/service>
+sudo systemctl daemon-reload
+```
+
+## Vérifier les appels système d'un binaire :
+
+Dans certains cas, vous pouvez être amenés à vérifier les appels système lors de l'exécution d'un binaire.
+
+Installation de strace :
+```
+sudo pacman -S strace
+```
+
+Exemple d'utilisation :
+```
+sudo systemctl stop clamav-clamonacc
+
+sudo strace -ff \
+    -e trace=inotify_init,inotify_init1,inotify_add_watch,inotify_rm_watch \
+    -o /tmp/clamonacc-inotify \
+    /usr/sbin/clamonacc -F --fdpass \
+    --exclude-list=/etc/clamav/exclude-list.txt
+
+grep -R -nE 'inotify_(init|init1|add_watch|rm_watch)' /tmp/clamonacc-inotify*
 ```

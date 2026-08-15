@@ -386,39 +386,15 @@ quarantine_clean="1"
 scan_ignore_root="0"
 scan_max_depth="50"
 scan_max_filesize="500M"
-inotify_monitor="1"
-inotify_paths="/home,/var,/tmp"
+# default_monitor_mode=""
+default_monitor_mode="/usr/local/maldetect/monitor_paths"
 ```
 
-### Configuration de /etc/systemd/system/maldet-monitor.service :
-Il s'agit du service qui gérera l'analyse en temps réel de LMD, en sachant que celui-ci utilise inotify.
-
+### Configuration de /usr/local/maldetect/monitor_paths :
 ```
-[Unit]
-Description=Maldet Real-Time Monitor (inotify)
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=/usr/local/maldetect/maldet --monitor /home,/var,/tmp
-Restart=always
-RestartSec=5
-Nice=10
-IOSchedulingClass=best-effort
-IOSchedulingPriority=7
-NoNewPrivileges=true
-PrivateTmp=true
-
-[Install]
-WantedBy=multi-user.target
-```
-
-### Rechargement et activation de maldet-monitor.service :
-```
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
-sudo systemctl enable maldet-monitor
-sudo systemctl start maldet-monitor
+/home
+/var
+/tmp
 ```
 
 ### Activation de maldet.service :
