@@ -102,7 +102,7 @@ sudo chmod 700 /var/tmp/clamav-tmp
 
 Lors de l'utilisation de ClamAV, vous serez souvent amené à ajouter des répertoire à ne pas analyser, afin d'éviter les faux positifs.
 
-Pour l'analyse avec clamdscan, vous pouvez utiliser l'instruction : ```ExcludePath ``` dans le fichier : ```/etc/clamav/clamd.conf``` pour exclure des répertoires de l'analyse.
+Pour l'analyse avec clamdscan, vous pouvez utiliser l'instruction : ```ExcludePath``` dans le fichier : ```/etc/clamav/clamd.conf``` pour exclure des répertoires de l'analyse.
 
 Par exemple :
 ```
@@ -407,9 +407,6 @@ sudo systemctl start maldet.service
 ```
 sudo maldet -u
 ```
-
-> [!IMPORTANT]
-> Il se peut qu'en tentant de démarrer les services ```maldet-monitor``` et ```maldet```, vous ayez une erreur dans les logs, concernant un fichier .pid manquant. Il suffit alors de redémarrer les deux services dans le même ordre (à savoir que vous pouvez être amené à les redémarrer plusieurs fois).
 
 ### Faire en sorte que ClamAV et LMD n'analysent pas dans leurs propres fichiers :
 
