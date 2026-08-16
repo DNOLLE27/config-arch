@@ -9,7 +9,7 @@ Le principe est que nous allons avoir des profils pour chaque programme, qui von
 
 ### Installation d'AppArmor :
 ```
-sudo pacman -S apparmor python-notify2 python-psutil
+sudo pacman -S apparmor python-notify2 python-psutil tk
 ```
 
 ### Modification du boot loader :
@@ -63,7 +63,7 @@ Type=Application
 Name=AppArmor Notify
 Comment=Receive on-screen notifications of AppArmor denials
 TryExec=aa-notify
-Exec=aa-notify -p -s 1 -w 60 -f /var/log/audit/audit.log
+Exec=aa-notify -p -s 1 -w 10 -f /var/log/audit/audit.log
 StartupNotify=false
 NoDisplay=true
 ```

@@ -92,12 +92,21 @@ Installation du paquet libpwquality :
 sudo pacman -S libpwquality
 ```
 
-Modification de /etc/pam.d/passwd :
+Modification de /etc/pam.d/system-auth :
 ```
 #%PAM-1.0
 ...
-password        required        pam_pwquality.so retry=2 minlen=10 difok=6 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 [badwords=myservice mydomain] enforce_for_root
-password        required        pam_unix.so use_authtok sha512 shadow
+password   required        	           pam_pwquality.so     retry=2 minlen=10 difok=6 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 [badwords=myservice mydomain] enforce_for_root
+password   required                    pam_unix.so          use_authtok nullok sha512 shadow
+...
+```
+
+Le fichier /etc/pam.d/passwd doit ressembler à :
+```
+#%PAM-1.0
+auth            include         system-auth
+account         include         system-auth
+password        include         system-auth
 ```
 
 ### Autoriser uniquement les utilisateurs du groupe "wheel" à utiliser la commande "su" :
@@ -108,7 +117,7 @@ Configuration de /etc/pam.d/su et /etc/pam.d/su-l :
 auth required pam_wheel.so use_uid
 ```
 
-### Modifcation du boot loader :
+### Modification du boot loader :
 ```
 # Ajoutez dans les options du noyau :
 loglevel=3

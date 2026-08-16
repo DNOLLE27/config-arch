@@ -9,7 +9,7 @@ Nous avons aussi un score en pourcentage nommé le « Hardening Index », permet
 ### Installation :
 
 ```
-sudo pacman -S lynis
+sudo pacman -S lynis fakeroot net-tools bind-tools
 ```
 
 ### Utilisation :
