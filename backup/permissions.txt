@@ -44,6 +44,7 @@
 - passwd (-rw-r--r-- root root)
 - su (-rw-r--r-- root root)
 - su-l (-rw-r--r-- root root)
+- system-auth (-rw-r--r-- root root)
 
 /etc/php : 
 - php.ini (-rw-r--r-- root root)
