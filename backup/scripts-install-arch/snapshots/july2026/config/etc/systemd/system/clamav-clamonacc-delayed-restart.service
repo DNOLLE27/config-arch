@@ -1,0 +1,6 @@
+[Unit]
+Description=One-shot delayed restart of ClamAV On-Access Scanner after boot
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl try-restart clamav-clamonacc.service

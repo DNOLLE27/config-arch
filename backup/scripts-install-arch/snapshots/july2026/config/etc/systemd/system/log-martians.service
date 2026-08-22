@@ -1,0 +1,14 @@
+[Unit]
+Description=Apply log_martians network hardening
+After=NetworkManager-wait-online.service
+Wants=NetworkManager-wait-online.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sysctl -w net.ipv4.conf.all.log_martians=1
+ExecStart=/usr/bin/sysctl -w net.ipv4.conf.default.log_martians=1
+ExecStart=/usr/bin/sysctl -w net.ipv4.conf.wlp1s0.log_martians=1
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

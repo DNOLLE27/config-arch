@@ -1,0 +1,10 @@
+[options]
+Architecture = auto
+SigLevel = Required DatabaseOptional
+LocalFileSigLevel = Optional
+
+[core]
+Server = https://archive.archlinux.org/repos/2026/07/01/core/os/$arch
+
+[extra]
+Server = https://archive.archlinux.org/repos/2026/07/01/extra/os/$arch

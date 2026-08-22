@@ -1,0 +1,11 @@
+[Unit]
+Description=Redémarrage du service clamav-clamonacc lors d'erreurs d'ajout de chemins.
+After=clamav-clamonacc.service
+
+[Service]
+Type=simple
+ExecStart=/home/<username>/Documents/scripts/clamav-restartonerr.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

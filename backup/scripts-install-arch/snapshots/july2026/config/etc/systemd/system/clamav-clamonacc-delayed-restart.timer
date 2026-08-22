@@ -1,0 +1,10 @@
+[Unit]
+Description=Run a one-time delayed restart of ClamAV On-Access Scanner after boot
+
+[Timer]
+OnBootSec=45s
+Unit=clamav-clamonacc-delayed-restart.service
+Persistent=false
+
+[Install]
+WantedBy=timers.target
