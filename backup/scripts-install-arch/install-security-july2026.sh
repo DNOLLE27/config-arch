@@ -9,17 +9,17 @@ SCRIPTDIR=$(dirname $0)
 CONFIGDIR=$SCRIPTDIR/config-arch
 BACKUPDIR=$CONFIGDIR/backup
 SNAPDIR=$SCRIPTDIR/snapshots/july2026
-SLEEPTPS=0.35
+SLEEPTPS=0.5
 USRCONF=dnolle
 HOSTCONF=hp-arch-dn
-
-git clone https://github.com/DNOLLE27/config-arch.git $CONFIGDIR
 
 echo 'Installation des solutions de sécurités...'
 sleep $SLEEPTPS
 
 echo 'Version de la snapshot : 01/07/2026'
 sleep $SLEEPTPS
+
+git clone https://github.com/DNOLLE27/config-arch.git $CONFIGDIR
 
 pacman --config $SNAPDIR/pacman-july2026 -S ufw fail2ban apparmor python-notify2 python-psutil tk rkhunter clamav libnotify inetutils ed inotify-tools which cronie libpwquality openssh firejail firetools usbguard usbutils lynis fakeroot net-tools bind-tools arch-audit sysstat 
 pacman --config $SNAPDIR/pacman-july2026 -U $SNAPDIR/packages/clamav-1.5.3-1-x86_64.pkg.tar.zst
@@ -133,7 +133,6 @@ rkhunter --propupd
 rkhunter --update
 rkhunter --propupd
 
-rkhunter --check --sk
 rkhunter --config-check
 
 echo FAIT
@@ -291,6 +290,8 @@ git clone https://github.com/rfxn/linux-malware-detect.git $SCRIPTDIR/linux-malw
 cd $SCRIPTDIR/linux-malware-detect
 
 ./install.sh
+
+cd $SCRIPTDIR
 
 rm -Rf $SCRIPTDIR/linux-malware-detect
 
@@ -464,7 +465,7 @@ sleep $SLEEPTPS
 echo 'Configuration de Firejail...'
 sleep $SLEEPTPS
 
-apparmor_parser -r /etc/apparmor.d/firejail-default
+apparmor_parser -rv /etc/apparmor.d/firejail-default
 
 echo 'Copie de /etc/firejail/firejail.config...'
 sleep $SLEEPTPS
