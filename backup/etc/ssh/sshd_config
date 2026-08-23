@@ -107,7 +107,7 @@ UsePAM no
 
 # no default banner path
 #Banner none
-Banner /etc/issue
+Banner /etc/issue.net
 
 # override default of no subsystems
 Subsystem	sftp	/usr/lib/ssh/sftp-server

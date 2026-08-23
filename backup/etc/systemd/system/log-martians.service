@@ -1,7 +1,7 @@
 [Unit]
 Description=Apply log_martians network hardening
-After=NetworkManager-wait-online.service
-Wants=NetworkManager-wait-online.service
+After=sys-subsystem-net-devices-wlp1s0.device NetworkManager-wait-online.service
+Wants=sys-subsystem-net-devices-wlp1s0.device NetworkManager-wait-online.service
 
 [Service]
 Type=oneshot
