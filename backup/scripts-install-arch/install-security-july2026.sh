@@ -5,6 +5,10 @@ if [[ $USER != "root" ]]; then
 	exit
 fi
 
+if [[ $# -gt 1 || ($# -eq 1 && != "--resume") ]]; then
+	echo "Veuillez soit ne mettre aucun paramètre, soit '--resume'."
+fi
+
 SCRIPTDIR=$(dirname $0)
 CONFIGDIR=$SCRIPTDIR/config-arch
 BACKUPDIR=$CONFIGDIR/backup
@@ -21,705 +25,726 @@ sleep $SLEEPTPS
 
 git clone https://github.com/DNOLLE27/config-arch.git $CONFIGDIR
 
-pacman --config $SNAPDIR/pacman-july2026 -S ufw fail2ban apparmor python-notify2 python-psutil tk rkhunter clamav libnotify inetutils ed inotify-tools which cronie libpwquality openssh firejail firetools usbguard usbutils lynis fakeroot net-tools bind-tools arch-audit sysstat 
-pacman --config $SNAPDIR/pacman-july2026 -U $SNAPDIR/packages/clamav-1.5.3-1-x86_64.pkg.tar.zst
+if [[ $1 == '--resume' ]]; then
+	echo "Reprise de l'installation des solutions de sécurité..."
+	sleep $SLEEPTPS
 
-echo 'Configuration de UFW...'
-sleep $SLEEPTPS
+	echo "Configuration d'antivirus..."
+	sleep $SLEEPTPS
 
-systemctl enable ufw
-systemctl start ufw
+	echo 'rkhunter...'
+	sleep $SLEEPTPS
 
-ufw limit 22/tcp
-ufw allow 80/tcp
-ufw allow 443/tcp
-ufw allow from 192.168.1.0/24 to any port 1714:1764 proto tcp
-ufw allow from 192.168.1.0/24 to any port 1714:1764 proto udp
-ufw default deny incoming
-ufw default allow outgoing
+	rkhunter --propupd
+	rkhunter --update
+	rkhunter --propupd
 
-ufw enable
+	rkhunter --config-check
 
-echo 'Configuration de fail2ban...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/fail2ban/jail.local...'
-sleep $SLEEPTPS
+	echo 'ClamAV...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/fail2ban/jail.local /etc/fail2ban/
+	echo 'Copie de /etc/clamav/clamd.conf...'
+	sleep $SLEEPTPS
 
-chown root:root /etc/fail2ban/jail.local
-chmod 644 /etc/fail2ban/jail.local
+	cp $BACKUPDIR/etc/clamav/clamd.conf /etc/clamav/
 
-echo FAIT
-sleep $SLEEPTPS
+	chown root:root /etc/clamav/clamd.conf
+	chmod 644 /etc/clamav/clamd.conf
 
-echo 'Copie de /etc/fail2ban/filter.d/ufw.aggressive.conf'
-sleep $SLEEPTPS
+	sed -i "s/<username>/$USRCONF/g" /etc/clamav/clamd.conf
 
-cp $BACKUPDIR/etc/fail2ban/filter.d/ufw.aggressive.conf /etc/fail2ban/filter.d/
+	echo FAIT
+	sleep $SLEEPTPS
 
-chown root:root /etc/fail2ban/filter.d/ufw.aggressive.conf 
-chmod 644 /etc/fail2ban/filter.d/ufw.aggressive.conf
+	echo 'Création du répertoire /var/tmp/clamav-tmp...'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	mkdir -p /var/tmp/clamav-tmp
+	chown clamav:clamav /var/tmp/clamav-tmp
+	chmod 700 /var/tmp/clamav-tmp
 
-systemctl enable fail2ban
-systemctl start fail2ban
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Configuration de AppArmor...'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/clamav/exclude-list.txt...'
+	sleep $SLEEPTPS
 
-systemctl enable apparmor
-systemctl start apparmor
+	cp $BACKUPDIR/etc/clamav/exclude-list.txt /etc/clamav/
 
-systemctl enable auditd
-systemctl start auditd
+	chown root:root /etc/clamav/exclude-list.txt
+	chmod 644 /etc/clamav/exclude-list.txt
 
-echo "Création du groupe audit et ajout de l'utilisateur $USRCONF..."
-sleep $SLEEPTPS
+	sed -i "s/<username>/$USRCONF/g" /etc/clamav/exclude-list.txt 
 
-groupadd -r audit
-gpasswd -a $USRCONF audit
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /usr/lib/systemd/clamav-clamonacc.service...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/audit/auditd.conf...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/usr/lib/systemd/system/clamav-clamonacc.service /usr/lib/systemd/system/
 
-cp $BACKUPDIR/etc/audit/auditd.conf /etc/audit/
+	chown root:root /usr/lib/systemd/system/clamav-clamonacc.service
+	chmod 644 /usr/lib/systemd/system/clamav-clamonacc.service
 
-chown root:root /etc/audit/auditd.conf
-chmod 644 /etc/audit/auditd.conf
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /etc/sudoers.d/clamav...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/tmpfiles.d/audit.conf...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/sudoers.d/clamav /etc/sudoers.d/
 
-cp $BACKUPDIR/etc/tmpfiles.d/audit.conf /etc/tmpfiles.d/
+	chown root:root /etc/sudoers.d/clamav
+	chmod 644 /etc/sudoers.d/clamav
 
-chown root:root /etc/tmpfiles.d/audit.conf 
-chmod 644 /etc/tmpfiles.d/audit.conf
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /etc/clamav/virus-event.bash...'
+	sleep $SLEEPTPS
 
-echo 'Copie de ~/.config/autostart/apparmor-notify.desktop...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/clamav/virus-event.bash /etc/clamav/
 
-mkdir -p /home/$USRCONF/.config/autostart
-chown -R $USRCONF:$USRCONF /home/$USRCONF/.config
-chmod -R 755 /home/$USRCONF/.config
+	chown root:root /etc/clamav/virus-event.bash                          
+	chmod 755 /etc/clamav/virus-event.bash
 
-cp $BACKUPDIR/home/username/.config/autostart/apparmor-notify.desktop /home/$USRCONF/.config/autostart/
+	echo FAIT
+	sleep $SLEEPTPS
 
-chown root:root /home/$USRCONF/.config/autostart/apparmor-notify.desktop
-chmod 644 /home/$USRCONF/.config/autostart/apparmor-notify.desktop
+	echo 'Création du répertoire /root/quarantine...'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	mkdir -p /root/quarantine
 
-echo "Configuration d'antivirus..."
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'rkhunter...'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/clamav/freshclam.conf...'
+	sleep $SLEEPTPS
 
-rkhunter --propupd
-rkhunter --update
-rkhunter --propupd
+	cp $BACKUPDIR/etc/clamav/freshclam.conf /etc/clamav/
 
-rkhunter --config-check
+	chown root:root /etc/clamav/freshclam.conf
+	chmod 644 /etc/clamav/freshclam.conf
 
-echo FAIT
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'ClamAV...'
-sleep $SLEEPTPS
+	freshclam
 
-echo 'Copie de /etc/clamav/clamd.conf...'
-sleep $SLEEPTPS
+	echo 'Création du fichier /var/log/clamav/freshclam.log...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/clamav/clamd.conf /etc/clamav/
+	touch /var/log/clamav/freshclam.log
+	chmod 600 /var/log/clamav/freshclam.log
+	chown clamav /var/log/clamav/freshclam.log
 
-chown root:root /etc/clamav/clamd.conf
-chmod 644 /etc/clamav/clamd.conf
+	echo FAIT
+	sleep $SLEEPTPS
 
-sed -i "s/<username>/$USRCONF/g" /etc/clamav/clamd.conf
+	echo 'Copie de /etc/systemd/system/clamav-clamonacc-delayed-restart.service et /etc/systemd/system/clamav-clamonacc-delayed-restart.timer...'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/systemd/system/clamav-clamonacc-delayed-restart.* /etc/systemd/system/
 
-echo 'Création du répertoire /var/tmp/clamav-tmp...'
-sleep $SLEEPTPS
+	chown root:root /etc/systemd/system/clamav-clamonacc-delayed-restart.*
+	chmod 644 /etc/systemd/system/clamav-clamonacc-delayed-restart.*
 
-mkdir -p /var/tmp/clamav-tmp
-chown clamav:clamav /var/tmp/clamav-tmp
-chmod 700 /var/tmp/clamav-tmp
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /etc/systemd/system/clamav-restart-on-error.service...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/clamav/exclude-list.txt...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/systemd/system/clamav-restart-on-error.service /etc/systemd/system/
 
-cp $BACKUPDIR/etc/clamav/exclude-list.txt /etc/clamav/
+	chown root:root /etc/systemd/system/clamav-restart-on-error.service
+	chmod 644 /etc/systemd/system/clamav-restart-on-error.service
 
-chown root:root /etc/clamav/exclude-list.txt
-chmod 644 /etc/clamav/exclude-list.txt
+	sed -i "s/<username>/$USRCONF/g" /etc/systemd/system/clamav-restart-on-error.service
 
-sed -i "s/<username>/$USRCONF/g" /etc/clamav/exclude-list.txt 
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de ~/Documents/scripts/clamav-restartonerr.sh...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /usr/lib/systemd/clamav-clamonacc.service...'
-sleep $SLEEPTPS
+	mkdir -p /home/$USRCONF/Documents/scripts
+	chown -R $USRCONF:$USRCONF /home/$USRCONF/Documents
+	chmod -R 755 /home/$USRCONF/Documents
 
-cp $BACKUPDIR/usr/lib/systemd/system/clamav-clamonacc.service /usr/lib/systemd/system/
+	cp $BACKUPDIR/home/username/Documents/scripts/clamav-restartonerr.sh /home/$USRCONF/Documents/scripts/
 
-chown root:root /usr/lib/systemd/system/clamav-clamonacc.service
-chmod 644 /usr/lib/systemd/system/clamav-clamonacc.service
+	chown $USRCONF:$USRCONF /home/$USRCONF/Documents/scripts/clamav-restartonerr.sh
+	chmod 755 /home/$USRCONF/Documents/scripts/clamav-restartonerr.sh
 
-echo FAIT
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/sudoers.d/clamav...'
-sleep $SLEEPTPS
+	systemctl daemon-reload
 
-cp $BACKUPDIR/etc/sudoers.d/clamav /etc/sudoers.d/
+	echo 'LMD...'
+	sleep $SLEEPTPS
 
-chown root:root /etc/sudoers.d/clamav
-chmod 644 /etc/sudoers.d/clamav
+	git clone https://github.com/rfxn/linux-malware-detect.git $SCRIPTDIR/linux-malware-detect
 
-echo FAIT
-sleep $SLEEPTPS
+	cd $SCRIPTDIR/linux-malware-detect
 
-echo 'Copie de /etc/clamav/virus-event.bash...'
-sleep $SLEEPTPS
+	./install.sh
 
-cp $BACKUPDIR/etc/clamav/virus-event.bash /etc/clamav/
+	cd $SCRIPTDIR
 
-chown root:root /etc/clamav/virus-event.bash                          
-chmod 755 /etc/clamav/virus-event.bash
+	rm -Rf $SCRIPTDIR/linux-malware-detect
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /usr/local/maldetect/conf.maldet...'
+	sleep $SLEEPTPS
 
-echo 'Création du répertoire /root/quarantine...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/usr/local/maldetect/conf.maldet /usr/local/maldetect/
 
-mkdir -p /root/quarantine
+	chown $USRCONF:$USRCONF /usr/local/maldetect/conf.maldet
+	chmod 640 /usr/local/maldetect/conf.maldet
 
-echo FAIT
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/clamav/freshclam.conf...'
-sleep $SLEEPTPS
+	echo 'Copie de /usr/local/maldetect/ignore_paths...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/clamav/freshclam.conf /etc/clamav/
+	cp $BACKUPDIR/usr/local/maldetect/ignore_paths /usr/local/maldetect/
 
-chown root:root /etc/clamav/freshclam.conf
-chmod 644 /etc/clamav/freshclam.conf
+	chown $USRCONF:$USRCONF /usr/local/maldetect/ignore_paths
+	chmod 644 /usr/local/maldetect/ignore_paths
 
-echo FAIT
-sleep $SLEEPTPS
+	sed -i "s/<username>/$USRCONF/g" /usr/local/maldetect/ignore_paths
 
-freshclam
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Création du fichier /var/log/clamav/freshclam.log...'
-sleep $SLEEPTPS
+	echo 'Copie de /usr/local/maldetect/monitor_paths...'
+	sleep $SLEEPTPS
 
-touch /var/log/clamav/freshclam.log
-chmod 600 /var/log/clamav/freshclam.log
-chown clamav /var/log/clamav/freshclam.log
+	cp $BACKUPDIR/usr/local/maldetect/monitor_paths /usr/local/maldetect/
 
-echo FAIT
-sleep $SLEEPTPS
+	chown $USRCONF:$USRCONF /usr/local/maldetect/monitor_paths
+	chmod 644 /usr/local/maldetect/monitor_paths
 
-echo 'Copie de /etc/systemd/system/clamav-clamonacc-delayed-restart.service et /etc/systemd/system/clamav-clamonacc-delayed-restart.timer...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/systemd/system/clamav-clamonacc-delayed-restart.* /etc/systemd/system/
+	systemctl enable clamav-daemon
+	systemctl start clamav-daemon
 
-chown root:root /etc/systemd/system/clamav-clamonacc-delayed-restart.*
-chmod 644 /etc/systemd/system/clamav-clamonacc-delayed-restart.*
+	systemctl enable clamav-clamonacc
+	systemctl start clamav-clamonacc
 
-echo FAIT
-sleep $SLEEPTPS
+	systemctl enable clamav-freshclam-once.timer
+	systemctl start clamav-freshclam-once.timer
 
-echo 'Copie de /etc/systemd/system/clamav-restart-on-error.service...'
-sleep $SLEEPTPS
+	systemctl enable clamav-clamonacc-delayed-restart.timer
+	systemctl start clamav-clamonacc-delayed-restart.timer
 
-cp $BACKUPDIR/etc/systemd/system/clamav-restart-on-error.service /etc/systemd/system/
+	systemctl enable clamav-restart-on-error
+	systemctl start clamav-restart-on-error
 
-chown root:root /etc/systemd/system/clamav-restart-on-error.service
-chmod 644 /etc/systemd/system/clamav-restart-on-error.service
+	systemctl enable maldet
+	systemctl start maldet
 
-sed -i "s/<username>/$USRCONF/g" /etc/systemd/system/clamav-restart-on-error.service
+	maldet -u
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Configuration de Cronie...'
+	sleep $SLEEPTPS
 
-echo 'Copie de ~/Documents/scripts/clamav-restartonerr.sh...'
-sleep $SLEEPTPS
+	systemctl enable cronie
+	systemctl start cronie
 
-mkdir -p /home/$USRCONF/Documents/scripts
-chown -R $USRCONF:$USRCONF /home/$USRCONF/Documents
-chmod -R 755 /home/$USRCONF/Documents
+	echo 'Copie de ~/Documents/scripts/av-scan.sh...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/home/username/Documents/scripts/clamav-restartonerr.sh /home/$USRCONF/Documents/scripts/
+	cp $BACKUPDIR/home/username/Documents/scripts/av-scan.sh /home/$USRCONF/Documents/scripts
 
-chown $USRCONF:$USRCONF /home/$USRCONF/Documents/scripts/clamav-restartonerr.sh
-chmod 755 /home/$USRCONF/Documents/scripts/clamav-restartonerr.sh
+	chown $USRCONF:$USRCONF /home/$USRCONF/Documents/scripts/av-scan.sh
+	chmod 755 /home/$USRCONF/Documents/scripts/av-scan.sh
 
-echo FAIT
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-systemctl daemon-reload
+	echo 'Configuration de ~/.bashrc pour av-scan...'
+	sleep $SLEEPTPS
 
-echo 'LMD...'
-sleep $SLEEPTPS
+	echo '' >> /home/$USRCONF/.bashrc
+	echo 'PATH=$PATH:~/Documents/scripts' >> /home/$USRCONF/.bashrc
+	echo '' >> /home/$USRCONF/.bashrc
+	echo 'alias av-scan=av-scan.sh' >> /home/$USRCONF/.bashrc
 
-git clone https://github.com/rfxn/linux-malware-detect.git $SCRIPTDIR/linux-malware-detect
+	echo FAIT
+	sleep $SLEEPTPS
 
-cd $SCRIPTDIR/linux-malware-detect
+	echo 'Configuration du système...'
+	sleep $SLEEPTPS
 
-./install.sh
+	echo 'Copie de /etc/ssh/sshd_config...'
+	sleep $SLEEPTPS
 
-cd $SCRIPTDIR
+	cp $BACKUPDIR/etc/ssh/sshd_config /etc/ssh/
 
-rm -Rf $SCRIPTDIR/linux-malware-detect
+	chown root:root /etc/ssh/sshd_config
+	chmod 600 /etc/ssh/sshd_config
 
-echo 'Copie de /usr/local/maldetect/conf.maldet...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/usr/local/maldetect/conf.maldet /usr/local/maldetect/
+	echo 'Copie de /etc/sysctl.d/99-security.conf...'
+	sleep $SLEEPTPS
 
-chown $USRCONF:$USRCONF /usr/local/maldetect/conf.maldet
-chmod 640 /usr/local/maldetect/conf.maldet
+	cp $BACKUPDIR/etc/sysctl.d/99-security.conf /etc/sysctl.d/
 
-echo FAIT
-sleep $SLEEPTPS
+	chown root:root /etc/ssh/sshd_config
+	chmod 644 /etc/ssh/sshd_config
 
-echo 'Copie de /usr/local/maldetect/ignore_paths...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/usr/local/maldetect/ignore_paths /usr/local/maldetect/
+	sysctl --system
 
-chown $USRCONF:$USRCONF /usr/local/maldetect/ignore_paths
-chmod 644 /usr/local/maldetect/ignore_paths
+	echo 'Copie de /etc/systemd/journald.conf...'
+	sleep $SLEEPTPS
 
-sed -i "s/<username>/$USRCONF/g" /usr/local/maldetect/ignore_paths
+	cp $BACKUPDIR/etc/systemd/journald.conf /etc/systemd/
 
-echo FAIT
-sleep $SLEEPTPS
+	chown root:root /etc/systemd/journald.conf
+	chmod 644 /etc/systemd/journald.conf
 
-echo 'Copie de /usr/local/maldetect/monitor_paths...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/usr/local/maldetect/monitor_paths /usr/local/maldetect/
+	systemctl restart systemd-journald
 
-chown $USRCONF:$USRCONF /usr/local/maldetect/monitor_paths
-chmod 644 /usr/local/maldetect/monitor_paths
+	echo 'Copie de /etc/pam.d/system-auth...'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/pam.d/system-auth /etc/pam.d/
 
-systemctl enable clamav-daemon
-systemctl start clamav-daemon
+	chown root:root /etc/pam.d/system-auth
+	chmod 644 /etc/pam.d/system-auth
 
-systemctl enable clamav-clamonacc
-systemctl start clamav-clamonacc
+	echo FAIT
+	sleep $SLEEPTPS
 
-systemctl enable clamav-freshclam-once.timer
-systemctl start clamav-freshclam-once.timer
+	echo 'Copie de /etc/pam.d/passwd...'
+	sleep $SLEEPTPS
 
-systemctl enable clamav-clamonacc-delayed-restart.timer
-systemctl start clamav-clamonacc-delayed-restart.timer
+	cp $BACKUPDIR/etc/pam.d/passwd /etc/pam.d/
 
-systemctl enable clamav-restart-on-error
-systemctl start clamav-restart-on-error
+	chown root:root /etc/pam.d/passwd
+	chmod 644 /etc/pam.d/passwd
 
-systemctl enable maldet
-systemctl start maldet
+	echo FAIT
+	sleep $SLEEPTPS
 
-maldet -u
+	echo 'Copie de /etc/pam.d/su...'
+	sleep $SLEEPTPS
 
-echo 'Configuration de Cronie...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/pam.d/su /etc/pam.d/
 
-systemctl enable cronie
-systemctl start cronie
+	chown root:root /etc/pam.d/su
+	chmod 644 /etc/pam.d/su
 
-echo 'Copie de ~/Documents/scripts/av-scan.sh...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/home/username/Documents/scripts/av-scan.sh /home/$USRCONF/Documents/scripts
+	echo 'Copie de /etc/pam.d/su-l...'
+	sleep $SLEEPTPS
 
-chown $USRCONF:$USRCONF /home/$USRCONF/Documents/scripts/av-scan.sh
-chmod 755 /home/$USRCONF/Documents/scripts/av-scan.sh
+	cp $BACKUPDIR/etc/pam.d/su-l /etc/pam.d/
 
-echo FAIT
-sleep $SLEEPTPS
+	chown root:root /etc/pam.d/su-l
+	chmod 644 /etc/pam.d/su-l
 
-echo 'Configuration de ~/.bashrc pour av-scan...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo '' >> /home/$USRCONF/.bashrc
-echo 'PATH=$PATH:~/Documents/scripts' >> /home/$USRCONF/.bashrc
-echo '' >> /home/$USRCONF/.bashrc
-echo 'alias av-scan=av-scan.sh' >> /home/$USRCONF/.bashrc
+	echo 'Configuration de Firejail...'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	apparmor_parser -rv /etc/apparmor.d/firejail-default
 
-echo 'Configuration du système...'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/firejail/firejail.config...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/ssh/sshd_config...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/firejail/firejail.config /etc/firejail/
 
-cp $BACKUPDIR/etc/ssh/sshd_config /etc/ssh/
+	chown root:root /etc/firejail/firejail.config
+	chmod 644 /etc/firejail/firejail.config
 
-chown root:root /etc/ssh/sshd_config
-chmod 600 /etc/ssh/sshd_config
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Configuration de USBGuard...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/sysctl.d/99-security.conf...'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/usbguard/usbguard-daemon.conf...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/sysctl.d/99-security.conf /etc/sysctl.d/
+	cp $BACKUPDIR/etc/usbguard/usbguard-daemon.conf /etc/usbguard/
 
-chown root:root /etc/ssh/sshd_config
-chmod 644 /etc/ssh/sshd_config
+	chown root:root /etc/usbguard/usbguard-daemon.conf
+	chmod 600 /etc/usbguard/usbguard-daemon.conf
 
-echo FAIT
-sleep $SLEEPTPS
+	sed -i "s/<username>/$USRCONF/g" /etc/usbguard/usbguard-daemon.conf
 
-sysctl --system
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/systemd/journald.conf...'
-sleep $SLEEPTPS
+	echo 'Génération des règles par défaut...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/systemd/journald.conf /etc/systemd/
+	usbguard generate-policy > $WORKDIR/rules.conf
+	mv $WORKDIR/rules.conf /etc/usbguard/
+	chmod 600 /etc/usbguard/rules.conf
+	chown root:root /etc/usbguard/rules.conf
 
-chown root:root /etc/systemd/journald.conf
-chmod 644 /etc/systemd/journald.conf
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	systemctl enable usbguard
+	systemctl start usbguard
 
-systemctl restart systemd-journald
+	echo 'Configuration système avec recommandations Lynis...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/pam.d/system-auth...'
-sleep $SLEEPTPS
+	echo '[KRNL-5820]'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/pam.d/system-auth /etc/pam.d/
+	echo 'Copie de /etc/security/limits.conf...'
+	sleep $SLEEPTPS
 
-chown root:root /etc/pam.d/system-auth
-chmod 644 /etc/pam.d/system-auth
+	cp $BACKUPDIR/etc/security/limits.conf /etc/security/
 
-echo FAIT
-sleep $SLEEPTPS
+	chown root:root /etc/security/limits.conf
+	chmod 644 /etc/security/limits.conf
 
-echo 'Copie de /etc/pam.d/passwd...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/pam.d/passwd /etc/pam.d/
+	echo '[AUTH-9230]'
+	sleep $SLEEPTPS
 
-chown root:root /etc/pam.d/passwd
-chmod 644 /etc/pam.d/passwd
+	echo 'Copie de /etc/login.defs...'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/login.defs /etc/
 
-echo 'Copie de /etc/pam.d/su...'
-sleep $SLEEPTPS
+	chown root:root /etc/login.defs
+	chmod 644 /etc/login.defs
 
-cp $BACKUPDIR/etc/pam.d/su /etc/pam.d/
+	echo FAIT
+	sleep $SLEEPTPS
 
-chown root:root /etc/pam.d/su
-chmod 644 /etc/pam.d/su
+	echo '[AUTH-9282] et [AUTH-9328]'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo "Changement des règles du mot de passe de $USRCONF..."
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/pam.d/su-l...'
-sleep $SLEEPTPS
+	chage -M 365 -m 1 -W 14 $USRCONF
 
-cp $BACKUPDIR/etc/pam.d/su-l /etc/pam.d/
+	echo FAIT
+	sleep $SLEEPTPS
 
-chown root:root /etc/pam.d/su-l
-chmod 644 /etc/pam.d/su-l
+	echo '[STRG-1846]'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /etc/modprobe.d/firewire.conf...'
+	sleep $SLEEPTPS
 
-echo 'Configuration de Firejail...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/modprobe.d/firewire.conf /etc/modprobe.d/
 
-apparmor_parser -rv /etc/apparmor.d/firejail-default
+	chown root:root /etc/modprobe.d/firewire.conf
+	chmod 640 /etc/modprobe.d/firewire.conf
 
-echo 'Copie de /etc/firejail/firejail.config...'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/firejail/firejail.config /etc/firejail/
+	mkinitcpio -P
 
-chown root:root /etc/firejail/firejail.config
-chmod 644 /etc/firejail/firejail.config
+	echo '[PKGS-7398]'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	arch-audit
 
-echo 'Configuration de USBGuard...'
-sleep $SLEEPTPS
+	echo '[NETW-3200]'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/usbguard/usbguard-daemon.conf...'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/modprobe.d/disable-protocols.conf...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/usbguard/usbguard-daemon.conf /etc/usbguard/
+	cp $BACKUPDIR/etc/modprobe.d/disable-protocols.conf /etc/modprobe.d/
 
-chown root:root /etc/usbguard/usbguard-daemon.conf
-chmod 600 /etc/usbguard/usbguard-daemon.conf
+	chown root:root /etc/modprobe.d/disable-protocols.conf
+	chmod 640 /etc/modprobe.d/disable-protocols.conf
 
-sed -i "s/<username>/$USRCONF/g" /etc/usbguard/usbguard-daemon.conf
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	mkinitcpio -P
 
-echo 'Génération des règles par défaut...'
-sleep $SLEEPTPS
+	echo '[ACCT-9626]'
+	sleep $SLEEPTPS
 
-usbguard generate-policy > $WORKDIR/rules.conf
-mv $WORKDIR/rules.conf /etc/usbguard/
-chmod 600 /etc/usbguard/rules.conf
-chown root:root /etc/usbguard/rules.conf
+	systemctl enable --now sysstat
 
-echo FAIT
-sleep $SLEEPTPS
+	echo '[TIME-3104]'
+	sleep $SLEEPTPS
 
-systemctl enable usbguard
-systemctl start usbguard
+	systemctl enable --now systemd-timesyncd
 
-echo 'Configuration système avec recommandations Lynis...'
-sleep $SLEEPTPS
+	timedatectl status
 
-echo '[KRNL-5820]'
-sleep $SLEEPTPS
+	echo '[MALW-3286]'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/security/limits.conf...'
-sleep $SLEEPTPS
+	systemctl enable --now clamav-freshclam
 
-cp $BACKUPDIR/etc/security/limits.conf /etc/security/
+	echo '[NAME-4028] et [NAME-4404]'
+	sleep $SLEEPTPS
 
-chown root:root /etc/security/limits.conf
-chmod 644 /etc/security/limits.conf
+	hostnamectl set-hostname $HOSTCONF.localdomain
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /etc/hosts...'
+	sleep $SLEEPTPS
 
-echo '[AUTH-9230]'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/hosts /etc/
 
-echo 'Copie de /etc/login.defs...'
-sleep $SLEEPTPS
+	chown root:root /etc/hosts
+	chmod 644 /etc/hosts
 
-cp $BACKUPDIR/etc/login.defs /etc/
+	sed -i "s/<hostname>/$HOSTCONF/g" /etc/hosts
 
-chown root:root /etc/login.defs
-chmod 644 /etc/login.defs
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo '[BANN-7126]'
+	sleep $SLEEPTPS
 
-echo '[AUTH-9282] et [AUTH-9328]'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/issue...'
+	sleep $SLEEPTPS
 
-echo "Changement des règles du mot de passe de $USRCONF..."
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/issue /etc/
 
-chage -M 365 -m 1 -W 14 $USRCONF
+	chown root:root /etc/issue
+	chmod 644 /etc/issue
 
-echo FAIT
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo '[STRG-1846]'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/issue.net...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/modprobe.d/firewire.conf...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/issue.net /etc/
 
-cp $BACKUPDIR/etc/modprobe.d/firewire.conf /etc/modprobe.d/
+	chown root:root /etc/issue.net
+	chmod 640 /etc/issue.net
 
-chown root:root /etc/modprobe.d/firewire.conf
-chmod 640 /etc/modprobe.d/firewire.conf
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo '[ACCT-9630]'
+	sleep $SLEEPTPS
 
-mkinitcpio -P
+	echo 'Copie de /etc/audit/rules.d/hardening.rules...'
+	sleep $SLEEPTPS
 
-echo '[PKGS-7398]'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/audit/rules.d/hardening.rules /etc/audit/rules.d/
 
-arch-audit
+	chown root:root /etc/audit/rules.d/hardening.rules
+	chmod 640 /etc/audit/rules.d/hardening.rules
 
-echo '[NETW-3200]'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/modprobe.d/disable-protocols.conf...'
-sleep $SLEEPTPS
+	augenrules --load
+	auditctl -l
 
-cp $BACKUPDIR/etc/modprobe.d/disable-protocols.conf /etc/modprobe.d/
+	echo '[FILE-7524]'
+	sleep $SLEEPTPS
 
-chown root:root /etc/modprobe.d/disable-protocols.conf
-chmod 640 /etc/modprobe.d/disable-protocols.conf
+	chmod 600 /etc/cron.deny
+	chmod 600 /etc/crontab
+	chmod 600 /etc/ssh/sshd_config
+	chmod 700 /etc/cron.d
+	chmod 700 /etc/cron.daily
+	chmod 700 /etc/cron.hourly
+	chmod 700 /etc/cron.weekly
+	chmod 700 /etc/cron.monthly
 
-echo FAIT
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-mkinitcpio -P
+	echo '[KRNL-6000]'
+	sleep $SLEEPTPS
 
-echo '[ACCT-9626]'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/systemd/system/log-martians.service...'
+	sleep $SLEEPTPS
 
-systemctl enable --now sysstat
+	cp $BACKUPDIR/etc/systemd/system/log-martians.service /etc/systemd/system/
 
-echo '[TIME-3104]'
-sleep $SLEEPTPS
+	chown root:root /etc/systemd/system/log-martians.service
+	chmod 640 /etc/systemd/system/log-martians.service
 
-systemctl enable --now systemd-timesyncd
+	echo FAIT
+	sleep $SLEEPTPS
 
-timedatectl status
+	systemctl daemon-reload
+	systemctl enable --now log-martians.service
 
-echo '[MALW-3286]'
-sleep $SLEEPTPS
+	echo '[TIME-3185]'
+	sleep $SLEEPTPS
 
-systemctl enable --now clamav-freshclam
+	echo 'Copie de /etc/systemd/timesyncd.conf.d/60-lynis.conf...'
+	sleep $SLEEPTPS
 
-echo '[NAME-4028] et [NAME-4404]'
-sleep $SLEEPTPS
+	mkdir -p /etc/systemd/timesyncd.conf.d
 
-hostnamectl set-hostname $HOSTCONF.localdomain
+	cp $BACKUPDIR/etc/systemd/timesyncd.conf.d/60-lynis.conf /etc/systemd/timesyncd.conf.d/
 
-echo 'Copie de /etc/hosts...'
-sleep $SLEEPTPS
+	chown root:root /etc/systemd/timesyncd.conf.d/60-lynis.conf
+	chmod 644 /etc/systemd/timesyncd.conf.d/60-lynis.conf
+	chmod 755 /etc/systemd/timesyncd.conf.d
 
-cp $BACKUPDIR/etc/hosts /etc/
+	echo FAIT
+	sleep $SLEEPTPS
 
-chown root:root /etc/hosts
-chmod 644 /etc/hosts
+	systemctl restart systemd-timesyncd
 
-sed -i "s/<hostname>/$HOSTCONF/g" /etc/hosts
+	echo '/!\ Attention ! /!\'
+	echo "Ce qui n'a pas été géré par le script :"
+	echo '	- Configuration du crontab pour av-scan.sh.'
+	echo '	- Configuration général de firejail (liens symboliques).'
+	echo "	- Changer le mot de passe de $USRCONF pour que les règles modifiées soient appliquées."
+	echo '	- Lynis : [FINT-4350], [ACCT-9622], [HTTP-6640], [HTTP-6643], [PHP-2372], [PHP-2376] et [HRDN-7222].'
+else
+	pacman --config $SNAPDIR/pacman-july2026 -S ufw fail2ban apparmor python-notify2 python-psutil tk rkhunter clamav libnotify inetutils ed inotify-tools which cronie libpwquality openssh firejail firetools usbguard usbutils lynis fakeroot net-tools bind-tools arch-audit sysstat 
+	pacman --config $SNAPDIR/pacman-july2026 -U $SNAPDIR/packages/clamav-1.5.3-1-x86_64.pkg.tar.zst
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Configuration de UFW...'
+	sleep $SLEEPTPS
 
-echo '[BANN-7126]'
-sleep $SLEEPTPS
+	systemctl enable ufw
+	systemctl start ufw
 
-echo 'Copie de /etc/issue...'
-sleep $SLEEPTPS
+	ufw limit 22/tcp
+	ufw allow 80/tcp
+	ufw allow 443/tcp
+	ufw allow from 192.168.1.0/24 to any port 1714:1764 proto tcp
+	ufw allow from 192.168.1.0/24 to any port 1714:1764 proto udp
+	ufw default deny incoming
+	ufw default allow outgoing
 
-cp $BACKUPDIR/etc/issue /etc/
+	ufw enable
 
-chown root:root /etc/issue
-chmod 644 /etc/issue
+	echo 'Configuration de fail2ban...'
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /etc/fail2ban/jail.local...'
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/issue.net...'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/fail2ban/jail.local /etc/fail2ban/
 
-cp $BACKUPDIR/etc/issue.net /etc/
+	chown root:root /etc/fail2ban/jail.local
+	chmod 644 /etc/fail2ban/jail.local
 
-chown root:root /etc/issue.net
-chmod 640 /etc/issue.net
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Copie de /etc/fail2ban/filter.d/ufw.aggressive.conf'
+	sleep $SLEEPTPS
 
-echo '[ACCT-9630]'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/fail2ban/filter.d/ufw.aggressive.conf /etc/fail2ban/filter.d/
 
-echo 'Copie de /etc/audit/rules.d/hardening.rules...'
-sleep $SLEEPTPS
+	chown root:root /etc/fail2ban/filter.d/ufw.aggressive.conf 
+	chmod 644 /etc/fail2ban/filter.d/ufw.aggressive.conf
 
-cp $BACKUPDIR/etc/audit/rules.d/hardening.rules /etc/audit/rules.d/
+	echo FAIT
+	sleep $SLEEPTPS
 
-chown root:root /etc/audit/rules.d/hardening.rules
-chmod 640 /etc/audit/rules.d/hardening.rules
+	systemctl enable fail2ban
+	systemctl start fail2ban
 
-echo FAIT
-sleep $SLEEPTPS
+	echo 'Configuration de AppArmor...'
+	sleep $SLEEPTPS
 
-augenrules --load
-auditctl -l
+	systemctl enable apparmor
+	systemctl start apparmor
 
-echo '[FILE-7524]'
-sleep $SLEEPTPS
+	systemctl enable auditd
+	systemctl start auditd
 
-chmod 600 /etc/cron.deny
-chmod 600 /etc/crontab
-chmod 600 /etc/ssh/sshd_config
-chmod 700 /etc/cron.d
-chmod 700 /etc/cron.daily
-chmod 700 /etc/cron.hourly
-chmod 700 /etc/cron.weekly
-chmod 700 /etc/cron.monthly
+	echo "Création du groupe audit et ajout de l'utilisateur $USRCONF..."
+	sleep $SLEEPTPS
 
-echo FAIT
-sleep $SLEEPTPS
+	groupadd -r audit
+	gpasswd -a $USRCONF audit
 
-echo '[KRNL-6000]'
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-echo 'Copie de /etc/systemd/system/log-martians.service...'
-sleep $SLEEPTPS
+	echo 'Copie de /etc/audit/auditd.conf...'
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/systemd/system/log-martians.service /etc/systemd/system/
+	cp $BACKUPDIR/etc/audit/auditd.conf /etc/audit/
 
-chown root:root /etc/systemd/system/log-martians.service
-chmod 640 /etc/systemd/system/log-martians.service
+	chown root:root /etc/audit/auditd.conf
+	chmod 644 /etc/audit/auditd.conf
 
-echo FAIT
-sleep $SLEEPTPS
+	echo FAIT
+	sleep $SLEEPTPS
 
-systemctl daemon-reload
-systemctl enable --now log-martians.service
+	echo 'Copie de /etc/tmpfiles.d/audit.conf...'
+	sleep $SLEEPTPS
 
-echo '[TIME-3185]'
-sleep $SLEEPTPS
+	cp $BACKUPDIR/etc/tmpfiles.d/audit.conf /etc/tmpfiles.d/
 
-echo 'Copie de /etc/systemd/timesyncd.conf.d/60-lynis.conf...'
-sleep $SLEEPTPS
+	chown root:root /etc/tmpfiles.d/audit.conf 
+	chmod 644 /etc/tmpfiles.d/audit.conf
 
-mkdir -p /etc/systemd/timesyncd.conf.d
+	echo FAIT
+	sleep $SLEEPTPS
 
-cp $BACKUPDIR/etc/systemd/timesyncd.conf.d/60-lynis.conf /etc/systemd/timesyncd.conf.d/
+	echo 'Copie de ~/.config/autostart/apparmor-notify.desktop...'
+	sleep $SLEEPTPS
 
-chown root:root /etc/systemd/timesyncd.conf.d/60-lynis.conf
-chmod 644 /etc/systemd/timesyncd.conf.d/60-lynis.conf
-chmod 755 /etc/systemd/timesyncd.conf.d
+	mkdir -p /home/$USRCONF/.config/autostart
+	chown -R $USRCONF:$USRCONF /home/$USRCONF/.config
+	chmod -R 755 /home/$USRCONF/.config
 
-echo FAIT
-sleep $SLEEPTPS
+	cp $BACKUPDIR/home/username/.config/autostart/apparmor-notify.desktop /home/$USRCONF/.config/autostart/
 
-systemctl restart systemd-timesyncd
+	chown root:root /home/$USRCONF/.config/autostart/apparmor-notify.desktop
+	chmod 644 /home/$USRCONF/.config/autostart/apparmor-notify.desktop
+
+	echo FAIT
+	sleep $SLEEPTPS
+
+	echo 'Le système doit redémarrer pour finaliser la configuration de AppArmor.';
+	sleep $SLEEPTPS
+	echo ''
+	echo "Après redémarrage, veuillez relancer le script avec l'option '--resume'."
+	sleep $SLEEPTPS
+	echo ''
+	echo 'Redémarrage dans...'
+	sleep $SLEEPTPS
+	echo '3'
+	sleep 1
+	echo '2'
+	sleep 1
+	echo '1'
+	sleep 1
+	reboot
+fi
 
 rm -Rf $CONFIGDIR
-
-echo '/!\ Attention ! /!\'
-echo "Ce qui n'a pas été géré par le script :"
-echo '	- Configuration du crontab pour av-scan.sh.'
-echo '	- Configuration général de firejail (liens symboliques).'
-echo "	- Changer le mot de passe de $USRCONF pour que les règles modifiées soient appliquées."
-echo '	- Lynis : [FINT-4350], [ACCT-9622], [HTTP-6640], [HTTP-6643], [PHP-2372], [PHP-2376] et [HRDN-7222].'
