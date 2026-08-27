@@ -27,12 +27,12 @@ ln -s ~/soft-local/VSCode-linux-x64/code ~/soft-local/path/vscode
 ```
 [Desktop Entry]
 Type=Application
-Version=1.116.0
+Version=1.135.0
 Name=Visual Studio Code
 Comment=Microsoft IDE
-Path=/home/<username>/soft-local/VSCode-linux-x64
-Exec=/home/<username>/soft-local/path/vscode
-Icon=/home/<username>/Images/Icons/vscode-icon.png
+Path=/home/dnolle/soft-local/VSCode-linux-x64
+Exec=/home/dnolle/soft-local/VSCode-linux-x64/code
+Icon=/home/dnolle/Images/Icons/vscode-icon.png
 Terminal=false
 Categories=Development
 ```
