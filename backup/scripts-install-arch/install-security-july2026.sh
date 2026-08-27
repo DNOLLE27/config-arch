@@ -5,8 +5,9 @@ if [[ $USER != "root" ]]; then
 	exit
 fi
 
-if [[ $# -gt 1 || ($# -eq 1 && != "--resume") ]]; then
+if [[ $# -gt 1 || ($# -eq 1 && $1 != "--resume") ]]; then
 	echo "Veuillez soit ne mettre aucun paramètre, soit '--resume'."
+	exit
 fi
 
 SCRIPTDIR=$(dirname $0)
@@ -14,16 +15,14 @@ CONFIGDIR=$SCRIPTDIR/config-arch
 BACKUPDIR=$CONFIGDIR/backup
 SNAPDIR=$SCRIPTDIR/snapshots/july2026
 SLEEPTPS=0.5
-USRCONF=dnolle
-HOSTCONF=hp-arch-dn
+USRCONF=<username>
+HOSTCONF=<hostname>
 
 echo 'Installation des solutions de sécurités...'
 sleep $SLEEPTPS
 
 echo 'Version de la snapshot : 01/07/2026'
 sleep $SLEEPTPS
-
-git clone https://github.com/DNOLLE27/config-arch.git $CONFIGDIR
 
 if [[ $1 == '--resume' ]]; then
 	echo "Reprise de l'installation des solutions de sécurité..."
@@ -236,6 +235,17 @@ if [[ $1 == '--resume' ]]; then
 	echo FAIT
 	sleep $SLEEPTPS
 
+	echo 'Copie de /etc/sysconfig/maldet...'
+	sleep $SLEEPTPS
+
+	cp $BACKUPDIR/etc/sysconfig/maldet /etc/sysconfig/
+
+	chown root:root /etc/sysconfig/maldet
+	chmod 644 /etc/sysconfig/maldet
+
+	echo FAIT
+	sleep $SLEEPTPS
+
 	systemctl enable clamav-daemon
 	systemctl start clamav-daemon
 
@@ -303,8 +313,8 @@ if [[ $1 == '--resume' ]]; then
 
 	cp $BACKUPDIR/etc/sysctl.d/99-security.conf /etc/sysctl.d/
 
-	chown root:root /etc/ssh/sshd_config
-	chmod 644 /etc/ssh/sshd_config
+	chown root:root /etc/sysctl.d/99-security.conf
+	chmod 644 /etc/sysctl.d/99-security.conf
 
 	echo FAIT
 	sleep $SLEEPTPS
@@ -624,10 +634,14 @@ if [[ $1 == '--resume' ]]; then
 	echo '/!\ Attention ! /!\'
 	echo "Ce qui n'a pas été géré par le script :"
 	echo '	- Configuration du crontab pour av-scan.sh.'
-	echo '	- Configuration général de firejail (liens symboliques).'
+	echo '	- Configuration général pour les liens symboliques de firejail (firecfg).'
 	echo "	- Changer le mot de passe de $USRCONF pour que les règles modifiées soient appliquées."
 	echo '	- Lynis : [FINT-4350], [ACCT-9622], [HTTP-6640], [HTTP-6643], [PHP-2372], [PHP-2376] et [HRDN-7222].'
+
+	rm -Rf $CONFIGDIR
 else
+	git clone https://github.com/DNOLLE27/config-arch.git $CONFIGDIR
+	
 	pacman --config $SNAPDIR/pacman-july2026 -S ufw fail2ban apparmor python-notify2 python-psutil tk rkhunter clamav libnotify inetutils ed inotify-tools which cronie libpwquality openssh firejail firetools usbguard usbutils lynis fakeroot net-tools bind-tools arch-audit sysstat 
 	pacman --config $SNAPDIR/pacman-july2026 -U $SNAPDIR/packages/clamav-1.5.3-1-x86_64.pkg.tar.zst
 
@@ -746,5 +760,3 @@ else
 	sleep 1
 	reboot
 fi
-
-rm -Rf $CONFIGDIR

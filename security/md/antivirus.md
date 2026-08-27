@@ -397,6 +397,13 @@ default_monitor_mode="/usr/local/maldetect/monitor_paths"
 /tmp
 ```
 
+### Configuration de /etc/sysconfig/maldet :
+```
+...
+#MONITOR_MODE="users"
+...
+```
+
 ### Activation de maldet.service :
 ```
 sudo systemctl enable maldet.service
