@@ -93,3 +93,16 @@ Entrées & Sorties > Clavier > Verrouillage numérique au démarrage : Activer >
 
 > [!IMPORTANT]
 > Pour que cela fonctionne, il faut que le service "Démons du clavier" soit activé et démarré. Pour vérifier si c'est le cas, il faut exécuter la commande : ```kcmshell6 kcm_kded```.
+
+### Désactivation du verrouillage automatique lors de la mise en veille :
+
+Depuis le logiciel "Configuration du système" :
+```
+Système > Système de gestion de l'énergie
+
+# Pour "Sur secteur", "Sur batterie" et "Sur batterie faible" :
+
+Lorsque inactif > Ne rien faire
+
+Sécurité & Confidentialité > Verouillage de l'écran > Verrouiller l'écran automatiquement > Jamais > Décocher "Verrouiller après une sortie de veille"
+```

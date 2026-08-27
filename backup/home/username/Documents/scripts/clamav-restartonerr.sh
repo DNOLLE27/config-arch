@@ -2,7 +2,7 @@
 
 while [[ true ]]
 do
-    ERROR=$(journalctl -u clamav-clamonacc --no-pager -n 5 | grep -E 'watch descriptor issue|issue when adding watch|could not watch path|could not add element to hash table|Communication error')
+    ERROR=$(journalctl -u clamav-clamonacc --no-pager -n 5 | grep -E "watch descriptor issue|issue when adding watch|could not watch path|could not add element to hash table|Communication error|Daemon failed to scan|Can't open file")
 
     if [[ ! $ERROR = '' ]]
     then
